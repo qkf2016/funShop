@@ -1,6 +1,6 @@
 <style lang="scss">
-@import '../zanui/btn.scss';
-@import '../zanui/icon.scss';
+@import '../zanui/btn';
+@import '../zanui/icon';
 @import '../zanui/common';
 page{
   padding-bottom: 30rpx; 

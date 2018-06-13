@@ -1,6 +1,7 @@
 <style lang="scss">
 @import '../zanui/common';
-@import '../zanui/icon.scss';
+@import '../zanui/icon';
+@import '../zanui/panel';
 page{
   padding-bottom: 50rpx;
 }
@@ -119,7 +120,8 @@ page{
       view.type-wrap(wx:for="{{firstClass}}" wx:key="id" @tap='onTapMenue')
           image.image(src="{{item}}" mode="aspectFit")
           view.content 示例分类
-  zanNoticebar(:text="longText" componentId="movable")
+  view.zan-panel(style='margin-top: 0')
+    zanNoticebar(:text="longText" componentId="movable")
   view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
       image.image(src="./images/box1.jpeg" lazy-load="{{true}}")  
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
@@ -183,7 +185,7 @@ page{
         './images/box.svg',
         './images/box.svg'
       ],
-      longText: '开张笑纳城乡客，开业喜迎远近宾。海南朗特塞数据科技提供技术支持',
+      longText: '开张笑纳城乡客，开业喜迎远近宾开张笑纳城乡客，开业喜迎远近宾开张笑纳城乡客，开业喜迎远近宾',
       hotGoods: [
         './images/box4.jpeg',
         './images/box4.jpeg',
@@ -215,12 +217,7 @@ page{
     }
 
     onLoad() {
-
-    }
-
-    onReady() {
       this.$invoke('zanNoticebar', 'initZanNoticeBarScroll')
-      this.$invoke('counter', 'getUserInfo')
     }
   }
 </script>

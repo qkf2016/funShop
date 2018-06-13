@@ -91,16 +91,10 @@
     view.item(wx:for="{{syncMenu}}" wx:key="id")
       view.name(class="{{item.id===currentMenu?'item-checked':''}}" @tap='onTapMenu({{item.id}})') {{item.name}}
   scroll-view.content-right-wrap(scroll-y)
-    block(wx:for="{{productArr}}" wx:key="index")
+    repeat(for="{{productArr}}" key="index" index="index" item="item")
       view.title-wrap.flex
-          view.shuxian
-          view.content {{item.secondName}}
-      view.hot-goods-detail-wrap(wx:for="{{item.goodsArr}}" wx:for-item="goods" wx:key="index")
-        view.goods-wrap.flex(@tap="onTapDetail")      
-          image.image(src="{{goods.img}}" lazy-load="{{true}}" mode='aspectFit')
-          view.name {{goods.name}}
-          view.price ¥50        
-    //- repeat(for="{{productArr}}" key="index" index="index" item="item")
+        view.shuxian
+        view.content 类目  
       view.zan-panel
         view.zan-card
           view.zan-card__thumb
@@ -130,39 +124,39 @@
       currentMenu: 1,
       min1: 1,
       max1: 20,
-      // productArr: [1, 2, 3],
-      productArr: [{
-        secondId: 1,
-        secondName: '二级分类1',
-        goodsArr: [{
-          img: '/pages/images/box.svg',
-          name: '商品名1'
-        }, {
-          img: '../pages/images/box.svg',
-          name: '商品名2'
-        }]
-      }, {
-        secondId: 2,
-        secondName: '二级分类2',
-        goodsArr: [{
-          img: '/pages/images/box.svg',
-          name: '商品名3'
-        }, {
-          img: '/pages/images/box.svg',
-          name: '商品名4'
-        }]
-      }]
+      productArr: [1, 2, 3]
+      // productArr: [{
+      //   secondId: 1,
+      //   secondName: '二级分类1',
+      //   goodsArr: [{
+      //     img: '/pages/images/box.svg',
+      //     name: '商品名1'
+      //   }, {
+      //     img: '../pages/images/box.svg',
+      //     name: '商品名2'
+      //   }]
+      // }, {
+      //   secondId: 2,
+      //   secondName: '二级分类2',
+      //   goodsArr: [{
+      //     img: '/pages/images/box.svg',
+      //     name: '商品名3'
+      //   }, {
+      //     img: '/pages/images/box.svg',
+      //     name: '商品名4'
+      //   }]
+      // }]
     }
     watch = {
 
     }
     events = {
-      // 'zanStepperMinusP': index => {
-      //   this.productArr[index] = this.productArr[index] - 1
-      // },
-      // 'zanStepperPlusP': index => {
-      //   this.productArr[index] = this.productArr[index] + 1
-      // }
+      'zanStepperMinusP': index => {
+        this.productArr[index] = this.productArr[index] - 1
+      },
+      'zanStepperPlusP': index => {
+        this.productArr[index] = this.productArr[index] + 1
+      }
     }
     methods = {
       onTapMenu(id) {
