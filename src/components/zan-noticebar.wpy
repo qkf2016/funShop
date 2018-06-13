@@ -14,7 +14,7 @@
 </style>
 <template>
   <view class="zan-noticebar">
-    <view class='.zan-icon.zan-icon-chat.icon'> 旺铺快讯: </view>
+    <view class='.zan-icon.zan-icon-chat.icon'> 趣玩儿店快讯: </view>
     <view id="{{ componentId }}__content-wrap" style="height: 18px; overflow: hidden; position: relative;left: 160rpx; width: 550rpx;">
       <view animation="{{ animationData }}" id="{{ componentId }}__content" style="position: absolute; white-space: nowrap;">
         {{ text }}

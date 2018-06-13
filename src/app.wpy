@@ -73,7 +73,7 @@ export default class extends wepy.app {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#f44',
-      navigationBarTitleText: '旺铺',
+      navigationBarTitleText: '趣玩儿店',
       navigationBarTextStyle: 'white'
     },
     tabBar: {

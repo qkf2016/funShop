@@ -157,7 +157,7 @@ page{
 
   export default class Main extends wepy.page {
     config = {
-      navigationBarTitleText: '旺铺'
+      navigationBarTitleText: '趣玩儿店'
     }
     components = {
       zanNoticebar: zanNoticebar
