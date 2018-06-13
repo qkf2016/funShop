@@ -1,0 +1,167 @@
+<style lang="scss">
+@import '../zanui/common';
+@import '../zanui/icon';
+.scroll-view{
+  position: fixed;
+  top: 90rpx;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.tip-wrap{
+  position: relative;
+  width: 100%;
+  background: $white;
+  border-top: 6px solid $gray-light;
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  .market-wrap{
+    border-bottom: 1px solid $gray-light;  
+    .left{
+      align-items: center;            
+      .market-name{
+        height: 80rpx;
+        line-height: 80rpx;
+        font-size: 32rpx;
+        font-weight: bold;
+        color: $gray-darker;
+        margin-left: 20rpx;
+      }
+    }  
+    .right{
+      height: 80rpx;            
+      justify-content: flex-end;
+      align-items: center;            
+    }    
+  }
+}
+.goods-msg{
+  position: relative;
+  box-sizing: border-box;
+  padding: 20rpx;
+  background: $white;   
+  width: 750rpx;    
+  height: 190rpx;  
+  .basic-msg{                              
+    border-bottom: 1px dashed $gray-light;
+    line-height: 46rpx;
+    height: 145rpx;
+    overflow: hidden;
+    .left{
+      width: 150rpx;
+      height: 150rpx;
+      margin-right: 15rpx;                   
+    }
+    .right{
+      font-size: 32rpx;  
+      width: 530rpx;     
+      flex-direction: column;                     
+      .item{
+        box-sizing: border-box;
+        padding: 15rpx 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        // 编译规则  表示这段代码不编译
+        /* autoprefixer: off */
+        // font-size: 32rpx;
+        // overflow: hidden;
+        // display: -webkit-box;
+        // -webkit-line-clamp: 2;
+        // -webkit-box-orient: vertical;                   
+      }
+    }
+  }
+}
+</style>
+
+<template lang='pug'>
+  zanTab(:tab.sync="tab" componentId="tab")
+  scroll-view.scroll-view(scroll-y)
+    view.tip-wrap
+      view.market-wrap.flex
+        view.flex.flex-p-6.left
+          view.zan-icon.zan-icon-points-mall(style="color: #999;") 
+          view.market-name 良明包装材料
+        view.flex.flex-p-1.right
+          view.zan-icon.zan-icon-arrow(style="color: #999;font-size: 28rpx;") 
+    view.goods-msg(@tap="onTapDeatil")
+      view.basic-msg.flex    
+        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")   
+        view.flex.right
+          sview.item 测试商品 x 5         
+          sview.item 商品描叙   
+
+    view.tip-wrap
+      view.market-wrap.flex
+        view.flex.flex-p-6.left
+          view.zan-icon.zan-icon-points-mall(style="color: #999;") 
+          view.market-name 良明包装材料
+        view.flex.flex-p-1.right
+          view.zan-icon.zan-icon-arrow(style="color: #999;font-size: 28rpx;") 
+    view.goods-msg(@tap="onTapDeatil")
+      view.basic-msg.flex    
+        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
+        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
+        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
+        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import ZanTab from '@/components/zan-tab'
+
+  export default class MyOrder extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+      zanTab: ZanTab
+    }
+
+    mixins = []
+
+    data = {
+      tab: {
+        list: [
+          {
+            id: 1,
+            title: '待发货'
+          },
+          {
+            id: 2,
+            title: '配送中'
+          },
+          {
+            id: 3,
+            title: '已完成'
+          }
+        ],
+        selectedId: 1,
+        scroll: false
+      }
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      onTapDeatil() {
+        wepy.navigateTo({url: './orderDetail'})
+      }
+    }
+
+    events = {
+      zanTabChange(selectedId, event) {
+        let { componentId } = event.source
+        this[componentId].selectedId = selectedId
+        this.$apply()
+      }
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

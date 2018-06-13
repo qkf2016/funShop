@@ -1,0 +1,107 @@
+<style lang="scss">
+.zan-stepper {
+  color: #666;
+}
+
+.zan-stepper view {
+  display: inline-block;
+  line-height: 20px;
+  padding: 5px 0;
+  text-align: center;
+  min-width: 40px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-size: 12px;
+  border: 1rpx solid #999;
+}
+
+.zan-stepper .zan-stepper__minus {
+  border-right: none;
+  border-radius: 2px 0 0 2px;
+}
+
+.zan-stepper .zan-stepper__text {
+  border: 1rpx solid #999;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  height: 30px;
+  width: 40px;
+  font-size: 12px;
+  line-height: 30px;
+}
+
+.zan-stepper .zan-stepper__plus {
+  border-left: none;
+  border-radius: 0 2px 2px 0;
+}
+
+.zan-stepper .zan-stepper--disabled {
+  background: #f8f8f8;
+  color: #bbb;
+  border-color: #e8e8e8;
+}
+
+.zan-stepper--small view {
+  min-width: 36px;
+  line-height: 18px;
+}
+
+.zan-stepper--small .zan-stepper__text {
+  width: 36px;
+  line-height: 28px;
+  height: 28px;
+}
+</style>
+<template>
+  <view class="zan-stepper {{ size === 'small' ? 'zan-stepper--small' : '' }}">
+    <view class="zan-stepper__minus {{ stepper <= min ? 'zan-stepper--disabled' : '' }}" data-index="{{ index }}" data-stepper="{{ stepper }}" data-disabled="{{ stepper <= min }}" bindtap="zanStepperMinus">-</view>
+    <input class="zan-stepper__text {{ min >= max ? 'zan-stepper--disabled' : '' }}" type="number" data-index="{{ index }}" data-min="{{ min }}" data-max="{{ max }}" value="{{ stepper }}" disabled="{{ min >= max }}" bindblur="handleZanStepperBlur" />
+    <view class="zan-stepper__plus {{ stepper >= max ? 'zan-stepper--disabled' : '' }}" data-index="{{ index }}" data-stepper="{{ stepper }}" data-disabled="{{ stepper >= max }}" bindtap="zanStepperPlus">+</view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class zanStepper extends wepy.component {
+  props = {
+    stepper: {
+      type: Number,
+      default: 0,
+      twoWay: true
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    min: {
+      type: Number,
+      default: 0
+    },
+    max: {
+      type: Number,
+      default: 0
+    },
+    size: {
+      type: String,
+      default: ''
+    }
+  }
+  data = {}
+  methods = {
+    zanStepperMinus() {
+      if (this.stepper > 0) this.$emit('zanStepperMinusP', this.index)
+    },
+
+    zanStepperPlus() {
+      this.$emit('zanStepperPlusP', this.index)
+    }
+    // handleZanStepperBlur(e) {
+
+    // }
+  }
+  onLoad() {
+
+  }
+}
+</script>

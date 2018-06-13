@@ -1,0 +1,226 @@
+<style lang="scss">
+@import '../zanui/common';
+@import '../zanui/icon.scss';
+page{
+  padding-bottom: 50rpx;
+}
+.search-wrap{
+  position: relative;
+  width: 750rpx;
+  height: 80rpx;
+  background: $theme;
+  border-top: 1px solid $white;
+  box-sizing: border-box;
+  padding: 15rpx 30rpx;
+  padding-left: 60rpx;
+  .icon{
+    position: absolute;
+    left: 20rpx;
+    color: $white;
+  }
+  .input{ 
+    background: $white;
+    height: 50rpx;
+    line-height: 50rpx;
+    width: 640rpx;
+    border-radius: 40rpx;
+    margin-left: 20rpx;
+    font-size: 32rpx;
+    color: $gray-darker;
+    text-align: center;
+  }
+}
+.swiper-wrap{
+  position: relative;
+  .swiper{
+      width: 100%;
+      height: 360rpx;
+  }
+  .image{
+      width: 750rpx;
+      height: 360rpx;
+  }
+}
+.goods-sort{   
+  flex-wrap: wrap;    
+  box-sizing: border-box;
+  padding: 20rpx;
+  background: #fff;
+  width: 750rpx;
+  .type-wrap{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 142rpx;
+      height: 142rpx;
+      .image{
+          margin-left: 50%;
+          transform: translate(-50%,0);
+          width: 80rpx;
+          height: 80rpx;
+      }
+      .content{
+          margin-top: 6rpx;
+          height: 40rpx;
+          overflow: hidden;
+          text-align: center;
+          font-size: 24rpx;
+      }
+  }
+}
+.hot-goods-wrap{
+  position: relative;
+  border-top: 20rpx solid $gray-light;
+  .image{
+      width: 100%;
+      height: 200rpx;
+  }
+}
+.scroll-view{
+    background: #fff;    
+    white-space: nowrap;
+    .hot-goods-detail-wrap{
+      position: relative;
+      display: inline-block;                    
+      box-sizing: border-box;
+      padding: 20rpx 20rpx 0 20rpx;
+      width: 214rpx;
+      .goods-wrap{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .image{
+            width: 150rpx;
+            height: 150rpx;
+        }
+        .name, .price{
+            width: 200rpx;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: center;
+            margin-top: 15rpx;
+            font-size: 26rpx;
+        }
+      }
+    }
+}  
+</style>
+
+<template lang='pug'>
+  view.search-wrap
+    view.zan-icon.zan-icon-search.icon
+    view.input 请输入商品名称
+  view.swiper-wrap
+      swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
+          swiper-item(wx:for="{{activityImages}}" wx:key="id")
+              image.image(src="{{item}}" mode="aspectFill")  
+  view.goods-sort.flex
+      view.type-wrap(wx:for="{{firstClass}}" wx:key="id" @tap='onTapMenue')
+          image.image(src="{{item}}" mode="aspectFit")
+          view.content 示例分类
+  zanNoticebar(:text="longText" componentId="movable")
+  view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
+      image.image(src="./images/box1.jpeg" lazy-load="{{true}}")  
+  scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
+      view.hot-goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
+          //- image.image-hot(src="./images/hot.svg")      
+          view.goods-wrap.flex(@tap='onTapProduct')
+            image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
+            view.name 示例商品
+            view.price ¥50
+  view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
+      image.image(src="./images/box2.jpeg" lazy-load="{{true}}")  
+  scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
+      view.hot-goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
+          //- image.image-hot(src="./images/hot.svg")      
+          view.goods-wrap.flex(@tap='onTapProduct')
+            image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
+            view.name 示例商品
+            view.price ¥50
+  view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
+      image.image(src="./images/box1.jpeg" lazy-load="{{true}}")  
+  scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
+      view.hot-goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
+          //- image.image-hot(src="./images/hot.svg")      
+          view.goods-wrap.flex(@tap='onTapProduct')    
+            image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
+            view.name 示例商品
+            view.price ¥50                        
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import zanNoticebar from '@/components/zan-noticebar'
+  import testMixin from '../mixins/test'
+
+  export default class Main extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+      zanNoticebar: zanNoticebar
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      activityImages: [
+        './images/demo1.jpeg',
+        './images/demo2.jpeg',
+        './images/demo3.jpeg'
+      ],
+      firstClass: [
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg',
+        './images/box.svg'
+      ],
+      longText: '开张笑纳城乡客，开业喜迎远近宾。海南朗特塞数据科技提供技术支持',
+      hotGoods: [
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg',
+        './images/box4.jpeg'
+      ]
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      onTapMenue() {
+        wepy.switchTab({url: '/pages/tabClassification'})
+      },
+      onTapProduct() {
+        wepy.navigateTo({url: './productDetail'})
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+
+    onReady() {
+      this.$invoke('zanNoticebar', 'initZanNoticeBarScroll')
+      this.$invoke('counter', 'getUserInfo')
+    }
+  }
+</script>

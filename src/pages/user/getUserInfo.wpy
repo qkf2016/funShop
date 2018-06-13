@@ -1,0 +1,70 @@
+<style lang="scss">
+@import '../../zanui/common';
+@import '../../zanui/btn';
+.wrap {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  align-items: center;
+  background: $white;
+  .imgae{
+    margin-top: 300rpx;
+    width: 150rpx;
+    height: 150rpx;
+  }
+  .msg{
+    margin-top: 20rpx;
+    font-size: 32rpx;
+    color: #707070;
+  }
+  .btn{
+    margin-top: 400rpx;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    background: $theme;
+    color: $white;
+  }
+}
+</style>
+
+<template lang='pug'>
+  view.wrap.flex
+    image.imgae(src='/pages/images/authorize.svg')
+    view.msg(@tap='a') 授权登陆{{bkgetUserInfo}}
+    button.zan-btn.zan-btn--small.btn(open-type='getUserInfo' @tap='bkgetUserInfo') 微信登陆
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import { getUserInfo } from '@/store/actions'
+  import { EDIT_USERINFO } from '@/store/types/user'
+
+  @connect({
+    store (state) {
+      return state
+    }
+  }, {
+    editUserInfo: EDIT_USERINFO,
+    getUserInfo
+  })
+  export default class GetUserInfo extends wepy.page {
+    data = {
+
+    }
+    watch = {
+
+    }
+    methods = {
+
+    }
+    onLoad() {
+      this.methods.getUserInfo()
+      // getUserInfo()
+    }
+  }
+</script>

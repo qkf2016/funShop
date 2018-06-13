@@ -1,0 +1,101 @@
+<style lang="scss">
+@import '../zanui/common';
+.shop-car-wrap{
+  position: relative;
+  position: fixed;
+  bottom: 60rpx;
+  width: 690rpx;
+  height: 80rpx;
+  margin-left: 55rpx;
+  border-radius: 100rpx;
+  .image{
+    position: relative;
+    z-index: 100;
+    border-radius: 200rpx;
+    width: 80rpx;
+    height: 80rpx;
+    background: $text-color;
+    margin-right: -40rpx;
+  }
+  .num{
+    position: absolute;
+    left: 40rpx;
+    top: -10rpx;
+    z-index: 150;
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: $white;
+    border-radius: 200rpx; 
+    background: $theme;
+  }
+  .charge{
+    width: 450rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: $gray-darker;
+    color: $white;
+    view{
+        margin-left: 60rpx;
+    }
+  }
+  .pay{
+    border-top-right-radius: 200rpx;
+    border-bottom-right-radius: 200rpx;
+    width: 150rpx;
+    height: 80rpx;
+    text-align: center;
+    line-height: 80rpx;
+    background: $theme;
+    view{
+        font-size: 28rpx;
+        color: $white;
+    }
+  }
+}
+</style>
+
+<template lang='pug'>
+  view.shop-car-wrap.flex(@tap="onTapShopCar")
+    image.image(src='/pages/images/shop-car.svg')
+    view.num(wx:if="{{syncShopCar.length}}") {{syncShopCar.length}}
+    view.charge 
+        view ¥1000
+    view.pay
+        view 去结算
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Counter extends wepy.component {
+    components = {
+
+    }
+    props = {
+      syncShopCar: {
+        type: Array,
+        default: []
+      }
+    }
+    data = {
+
+    }
+    watch = {
+
+    }
+    events = {
+
+    }
+    methods = {
+      onTapShopCar() {
+        wepy.switchTab({url: '/pages/tabShopCar'})
+      }
+    }
+    onLoad() {
+
+    }
+  }
+</script>

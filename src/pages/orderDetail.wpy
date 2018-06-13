@@ -1,0 +1,227 @@
+<style lang="scss">
+@import '../zanui/common';
+@import '../zanui/icon';
+@import '../zanui/btn';
+page{
+  padding-bottom: 120rpx;
+}
+.condation-wrap{
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 120rpx;
+  background: $theme;
+  border-top: 1px solid $white;
+  font-size: 32rpx;  
+  .left{
+    color: $white;            
+    .type{
+      margin-left: 10rpx;
+    }
+  }
+}
+.deliveryInfo-wrap{
+  box-sizing: border-box;
+  padding: 20rpx;
+  border-top: 20rpx solid $gray-light;
+  width: 100%;
+  background: $white;
+  line-height: 50rpx;
+  .name-phone{
+    align-items: center;
+    color: $text-color;   
+    font-weight: 500;  
+    line-height: 60rpx;           
+    .image{
+      width: 30rpx;
+      height: 30rpx;
+    }
+    .address{
+      margin-left: 15rpx;
+      font-size: 28rpx;
+      color: $text-color;
+    }
+  }
+}
+.welcome-wrap{
+  align-items: center;
+  justify-content: space-between;
+  height: 69rpx;
+  width: 100%;
+  background: $white;
+  font-size: 26rpx;
+  border-top: 1px solid $gray-light;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+.good-msg-wrap{
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20rpx;
+    height: 250rpx;
+    width: 100%;
+    background: $white;
+    border-top: 20rpx solid $gray-light;
+    .left{
+      width: 180rpx;
+      height: 180rpx;
+      .image{
+        width: 180rpx;
+        height: 180rpx;
+      }
+    }
+    .right{
+      margin-left: 30rpx;
+      width: 100%;
+      height: 180rpx;
+      line-height: 60rpx;
+      color: $text-color;
+      .name{
+        font-size: 36rpx;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .num{
+        font-size: 26rpx;
+      }
+      .price{
+        font-size: 28rpx;
+      }
+    }
+}
+.order-detail-wrap{
+    box-sizing: border-box;
+    padding: 20rpx;
+    width: 100%;
+    font-size: 30rpx;
+    background: $white;
+    border-top: 20rpx solid $gray-light;
+    .order-num-wrap{
+      .copy-wrap{
+        .num{
+          height: 56rpx;
+          line-height: 56rpx;
+        }
+        .btn{
+          border-radius: 10rpx;
+          text-align: center;
+          font-size: 26rpx;
+          width: 100rpx;
+          box-sizing: border-box;
+          padding: 4rpx;
+          border: 1px solid $gray-light;
+        }
+      }
+    }
+    .date{
+      margin-top: 20rpx;
+    }
+}
+.order-foot-wrap{
+  align-items: center;
+  box-sizing: border-box;
+  border-top: 1px solid $gray-light;
+  background: $white;
+  padding: 0 20rpx;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100rpx;
+  line-height: 100rpx;
+  width: 100%;
+  font-size: 32rpx;
+}
+</style>
+
+<template lang='pug'>
+  view.condation-wrap.flex
+    view.left.flex
+      view.zan-icon.zan-icon-clock(style="color: #fff") 
+      view.type 订单状态：某种状态
+  view.deliveryInfo-wrap
+    view.name-phone.flex
+      view 屈凯飞 18708965705
+    view.name-phone.flex
+      image.image(src='/pages/images/address.svg')
+      view.address 海南海口琼山区龙昆南路99号海南师范大学     
+  view.welcome-wrap.flex(bindtap="callMarket")
+    view 良明包装材料欢迎您再次光临
+    view.zan-icon.zan-icon-phone(style="color: #0a0")
+  view.good-msg-wrap.flex
+    view.left
+      image.image(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")
+    view.right
+      view.name 测试商品
+      view.num 数量： x 5
+      view.price 单价： ¥50
+  view.order-detail-wrap
+    view.order-num-wrap.flex
+      view.flex-p-2.num 订单编号： 201808192323
+      view.flex-p-1.copy-wrap(bindtap="copyNumber") 
+        view.btn 复制
+    view.date 下单时间： 2018-06-05 16:13:00
+  view.order-foot-wrap.flex
+    view  总金额：¥250
+    button.zan-btn.zan-btn--small.zan-btn--danger 马上付款/再来一单           
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import ZanTab from '@/components/zan-tab'
+
+  export default class MyOrder extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+      zanTab: ZanTab
+    }
+
+    mixins = []
+
+    data = {
+      tab: {
+        list: [
+          {
+            id: 1,
+            title: '待发货'
+          },
+          {
+            id: 2,
+            title: '配送中'
+          },
+          {
+            id: 3,
+            title: '已完成'
+          }
+        ],
+        selectedId: 1,
+        scroll: false
+      }
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+
+    }
+
+    events = {
+      zanTabChange(selectedId, event) {
+        let { componentId } = event.source
+        this[componentId].selectedId = selectedId
+        this.$apply()
+      }
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

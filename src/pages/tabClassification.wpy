@@ -1,0 +1,71 @@
+<style lang="scss">
+@import '../zanui/btn.scss';
+@import '../zanui/common';
+</style>
+
+<template lang='pug'>
+  shelves(:syncMenu.sync="menuP")
+  shopCar(:syncShopCar.sync="shopCarP" wx:if="{{shopCarP.length > 1}}")
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Shelves from '@/components/shelves'
+  import ShopCar from '@/components/shop-car'
+
+  export default class Classification extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+      shelves: Shelves,
+      shopCar: ShopCar
+    }
+    mixins = []
+    data = {
+      menuP: [{
+        id: 1,
+        name: '打包箱'
+      }, {
+        id: 2,
+        name: '彩印箱'
+      }, {
+        id: 3,
+        name: '水果箱'
+      }, {
+        id: 4,
+        name: '高档礼品盒'
+      }, {
+        id: 5,
+        name: '地瓜箱'
+      }, {
+        id: 6,
+        name: '葡萄箱'
+      }, {
+        id: 7,
+        name: '木瓜箱'
+      }, {
+        id: 8,
+        name: '芒果箱'
+      }]
+    }
+
+    computed = {
+      shopCarP() {
+        return this.$parent.globalData.shopCar
+      }
+    }
+
+    methods = {
+
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

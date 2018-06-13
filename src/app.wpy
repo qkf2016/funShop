@@ -1,0 +1,125 @@
+<style lang="scss">
+page{
+  background: #f0f0f0;
+}
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.__blank-section{
+    margin-top: 200rpx;
+    .image{
+        margin-left: 50%;
+        transform: translate(-50%,0);
+        width: 200rpx;
+        height: 200rpx;
+    }
+    .text{
+        text-align: center;
+        font-size: 32rpx;
+        color: #8a8a8a;
+    }
+}
+.flex{
+    display:flex;
+	align-items:flex-start;
+	
+    &.flex-center{align-items:center;}   
+    &.flex-end{align-items:flex-end;}
+    &.flex-wrap{flex-wrap:wrap;}
+    &.flex-vertical{flex-direction: column;}
+    &.flex-full {
+        align-items:stretch;
+        align-content:stretch;
+    }
+
+    @each $number in 0,1,2,3,4,5,6 {
+        .flex-p-#{$number} {flex-grow: $number;}
+        .flex-p-#{$number} {flex-shrink: $number;}
+        .flex-p-#{$number} {flex-basis:0;}
+    }
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import { setStore } from 'wepy-redux'
+import configStore from './store'
+
+const store = configStore()
+setStore(store)
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/tabMain',
+
+      'pages/tabClassification',
+      'pages/tabShopCar',
+      'pages/tabAbout',
+      'pages/productDetail',
+      'pages/myAddress',
+      'pages/addAddress',
+      'pages/myOrder',
+      'pages/orderDetail',
+
+      'pages/user/getUserInfo'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#f44',
+      navigationBarTitleText: '旺铺',
+      navigationBarTextStyle: 'white'
+    },
+    tabBar: {
+      backgroundColor: '#fff',
+      selectedColor: '#f44',
+      list: [{
+        pagePath: 'pages/tabMain',
+        iconPath: '/pages/images/main-dark.png',
+        selectedIconPath: '/pages/images/main.png',
+        text: '主页'
+      }, {
+        pagePath: 'pages/tabClassification',
+        iconPath: '/pages/images/classification-dark.png',
+        selectedIconPath: '/pages/images/classification.png',
+        text: '分类'
+      }, {
+        pagePath: 'pages/tabShopCar',
+        iconPath: '/pages/images/shopcar-dark.png',
+        selectedIconPath: '/pages/images/shopcar.png',
+        text: '购物车'
+      }, {
+        pagePath: 'pages/tabAbout',
+        iconPath: '/pages/images/about-dark.png',
+        selectedIconPath: '/pages/images/about.png',
+        text: '关于'
+      }]
+    }
+  }
+
+  constructor () {
+    super()
+    this.use('promisify')
+    this.use('requestfix')
+  }
+
+  onLaunch() {
+
+  }
+
+  globalData = {
+    shopCar: [{
+      id: 1,
+      name: '测试商品',
+      img: '/pages/images/box.svg',
+      price: 50
+    }]
+  }
+}
+</script>

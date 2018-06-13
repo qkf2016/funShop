@@ -1,0 +1,158 @@
+<style lang="scss">
+@import '../zanui/btn.scss';
+@import '../zanui/icon.scss';
+@import '../zanui/common';
+page{
+  padding-bottom: 30rpx; 
+}
+.cover{
+  width: 750rpx;
+  height: 300rpx;
+}
+.about-market{
+  width: 100%;
+  background: $white;
+  box-sizing: border-box;
+  padding: 30rpx;
+  line-height: 55rpx;
+  .title{
+    font-size: 36rpx;
+    font-weight: 700;
+    border-left: 10rpx solid $theme;
+    padding-left: 10rpx;
+  }
+  .market-detail{
+    .name{
+      font-size: 42rpx;
+      font-weight: 700;
+    }
+    .address{
+      width: 690rpx;
+      font-size: 32rpx;
+    }
+    .phone{
+      justify-content: space-between;
+      align-items: center;
+      font-size: 32rpx;            
+      .icon{
+        width: 40rpx;
+        height: 40rpx;
+        color: $green;
+      }
+    }
+  }
+}
+.modules-wrap-market{
+  box-sizing: border-box;
+  margin-top: 20rpx;    
+  background: $white;
+  border-top: 1px solid $gray-light;
+  .about{
+    justify-content: space-between;
+    align-items: center;
+    height: 90rpx;
+    border-bottom: 1px solid $gray-light;
+    box-sizing: border-box;
+    padding: 20rpx;
+    .left{
+      font-size: 32rpx;
+      align-items: center;
+      .image{
+        width: 30rpx;
+        height: 45rpx;
+      }
+      .content{
+        margin-left: 10rpx;
+      }
+    }
+    .right{
+      width: 25rpx;
+      height: 25rpx;
+    }
+  }
+}
+.technology{
+  width: 750rpx;
+  text-align: center;
+  margin-top: 50rpx;
+  font-size: 24rpx;
+  color: $gray-dark;
+}
+</style>
+
+<template lang='pug'>
+  image.cover(src="/pages/images/demo1.jpeg" mode="aspectFill")         
+  view.about-market(@tap="onTapPhone({{baseInfo.phone}})")
+    view.market-detail
+      view.name 海口良明包装材料有限公司 
+      view.address 营业时间：09:00 —— 18:00            
+      view.address 地址： 海南省海口市秀英区永万工业开发区海盛路113号内厂房
+      view.phone.flex
+        view.text 咨询热线：18708965705
+        view.icon.zan-icon.zan-icon-phone
+
+  view.modules-wrap-market.flex(style='margin-top: 0')
+    view.about.flex.flex-p-1(@tap="onTapAbout" style="border-right: 1px solid #f0f0f0; justify-content: center;")
+      view.left.flex
+        image.image.flex(src="/pages/images/about.svg")
+        view.content 关于Ta
+    view.about.flex.flex-p-1(@tap="onTapShare" style="justify-content: center;")
+        view.left.flex
+          image.image.flex(src="/pages/images/share.svg")
+          view.content 分享Ta
+  view.modules-wrap-market
+    view.about.flex(bindtap="onTapOrder")
+      view.left.flex
+        view.image.zan-icon.zan-icon-pending-orders(style="color: #48c370")
+        view.content 我的订单
+      view.zan-icon.zan-icon-arrow(style="color: #999")
+    view.about.flex(@tap="onTapMyAddress")
+      view.left.flex
+        image.image.flex(src="/pages/images/address.svg")
+        view.content 收货地址
+      view.zan-icon.zan-icon-arrow(style="color: #999")   
+  view.technology
+    view 朗特赛数据科技
+    view  Hai nan LangTeSai Technology Co.
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import testMixin from '../mixins/test'
+
+  export default class About extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+
+    }
+
+    mixins = [testMixin]
+
+    data = {
+
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      onTapMyAddress() {
+        wepy.navigateTo({url: './myAddress'})
+      },
+      onTapOrder() {
+        wepy.navigateTo({url: './myOrder'})
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

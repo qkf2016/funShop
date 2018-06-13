@@ -1,0 +1,62 @@
+<style lang="scss">
+@import '../zanui/btn.scss';
+@import '../zanui/common';
+.writeAddress{
+  width: 750rpx;
+  height: 150rpx;
+}
+.go-shop{
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 100rpx;
+}
+</style>
+
+<template lang='pug'>
+  image.writeAddress(src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
+  view.__blank-section
+    image.image(src="/pages/images/none.svg")
+    view.text 空空如也  
+  button.zan-btn.zan-btn--small.zan-btn--danger.go-shop(@tap='onTapShopping') 去挑货
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import testMixin from '../mixins/test'
+
+  export default class ShopCar extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+
+    }
+
+    mixins = [testMixin]
+
+    data = {
+
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      onTapAddAddress() {
+        wepy.navigateTo({url: './addAddress'})
+      },
+      onTapShopping() {
+        wepy.switchTab({url: '/pages/tabClassification'})
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

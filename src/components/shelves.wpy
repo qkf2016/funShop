@@ -1,0 +1,179 @@
+<style lang="scss">
+@import '../zanui/btn';
+@import '../zanui/panel';
+@import '../zanui/card';
+@import '../zanui/common';
+// 一级分类
+.content-left-wrap{
+  background: $gray-light;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-top: 1px solid $gray-light;
+  border-right: 1px solid $gray-light;
+  box-sizing: border-box;
+  width: 25%;
+  font-size: 32rpx;
+  text-align: center;
+  .item{
+    height: 100rpx;
+    line-height: 100rpx;
+    color: $text-color;
+  }
+  .item-checked{
+    color: $theme !important;
+    background: $white;
+  }
+}
+// 二级分类
+.content-right-wrap{
+  background: $white;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 75%;  
+  .title-wrap{
+    align-items: center;        
+    box-sizing: border-box;
+    border-top: 1px solid $gray-light;         
+    border-bottom: 1px solid $gray-light; 
+    padding: 0 20rpx;
+    width: 100%;
+    height: 70rpx;
+    line-height: 70rpx;
+    background: $white;   
+    text-align: center;
+    font-size: 30rpx;
+    .shuxian{
+        height: 40rpx;
+        width: 10rpx;
+        background: $theme;
+        margin-right: 16rpx;
+        border-radius: 10rpx;
+    }
+    .content{
+        color: $theme;
+        font-weight: 400;
+    }
+  }
+  .hot-goods-detail-wrap{
+    position: relative;
+    display: inline-block;                    
+    box-sizing: border-box;
+    padding: 20rpx 20rpx 0 20rpx;
+    width: 280rpx;
+    .goods-wrap{
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .image{
+          width: 100%;
+          height: 120rpx;
+      }
+      .name, .price{
+          width: 200rpx;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
+          margin-top: 15rpx;
+          font-size: 26rpx;
+      }
+    }
+  }
+}
+</style>
+
+<template lang='pug'>
+  scroll-view.content-left-wrap(scroll-y)
+    view.item(wx:for="{{syncMenu}}" wx:key="id")
+      view.name(class="{{item.id===currentMenu?'item-checked':''}}" @tap='onTapMenu({{item.id}})') {{item.name}}
+  scroll-view.content-right-wrap(scroll-y)
+    block(wx:for="{{productArr}}" wx:key="index")
+      view.title-wrap.flex
+          view.shuxian
+          view.content {{item.secondName}}
+      view.hot-goods-detail-wrap(wx:for="{{item.goodsArr}}" wx:for-item="goods" wx:key="index")
+        view.goods-wrap.flex(@tap="onTapDetail")      
+          image.image(src="{{goods.img}}" lazy-load="{{true}}" mode='aspectFit')
+          view.name {{goods.name}}
+          view.price ¥50        
+    //- repeat(for="{{productArr}}" key="index" index="index" item="item")
+      view.zan-panel
+        view.zan-card
+          view.zan-card__thumb
+            image.zan-card__img(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg" mode="aspectFit")
+          view.zan-card__detail
+            view.zan-card__detail-row {{index}} 一个纸箱【虚拟商品】
+            view.zan-card__detail-row 单价：¥50 
+            view.zan-card__detail-row 规格：50mm x 50mm
+            zanStepper(:stepper.sync="item"  :index.sync="index"  :min="min1"  :max="max1" size="small")
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import ZanStepper from './zan-stepper'
+
+  export default class Counter extends wepy.component {
+    components = {
+      zanStepper: ZanStepper
+    }
+    props = {
+      syncMenu: {
+        type: Array,
+        default: []
+      }
+    }
+    data = {
+      currentMenu: 1,
+      min1: 1,
+      max1: 20,
+      // productArr: [1, 2, 3],
+      productArr: [{
+        secondId: 1,
+        secondName: '二级分类1',
+        goodsArr: [{
+          img: '/pages/images/box.svg',
+          name: '商品名1'
+        }, {
+          img: '../pages/images/box.svg',
+          name: '商品名2'
+        }]
+      }, {
+        secondId: 2,
+        secondName: '二级分类2',
+        goodsArr: [{
+          img: '/pages/images/box.svg',
+          name: '商品名3'
+        }, {
+          img: '/pages/images/box.svg',
+          name: '商品名4'
+        }]
+      }]
+    }
+    watch = {
+
+    }
+    events = {
+      // 'zanStepperMinusP': index => {
+      //   this.productArr[index] = this.productArr[index] - 1
+      // },
+      // 'zanStepperPlusP': index => {
+      //   this.productArr[index] = this.productArr[index] + 1
+      // }
+    }
+    methods = {
+      onTapMenu(id) {
+        this.currentMenu = id
+      },
+      onTapDetail() {
+        wepy.navigateTo({url: '/pages/productDetail'})
+      }
+    }
+    onLoad() {
+
+    }
+  }
+</script>

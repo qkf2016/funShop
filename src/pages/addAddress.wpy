@@ -1,0 +1,111 @@
+<style lang="scss">
+@import '../zanui/common';
+@import '../zanui/icon';
+.info-wrap{
+  box-sizing: border-box;
+  padding: 20rpx 30rpx;
+  background: $white;
+  .item-wrap{
+    box-sizing: border-box;
+    padding: 20rpx 0;
+    align-items: center;
+    border-bottom: 1px solid $gray-light;
+    .left{
+      width: 190rpx;
+    }
+    .middle{
+      width: 500rpx;
+    }
+    .middle-text{
+      color: $text-color
+    }
+    .right{
+      width: 30rpx;
+      height: 30rpx;
+    }
+  }
+  .location{
+    justify-content: space-between;
+  }
+}
+.btn{   
+  margin-top: 80rpx;
+  color: $white;
+  width: 95%;
+  border-radius: 20rpx;
+  background: $theme;
+}
+</style>
+
+<template lang='pug'>
+  toast
+  view.info-wrap
+    view.item-wrap.flex
+      view.left *收货人:
+      input.middle(placeholder="收货人姓名" bindinput="onInputName")
+    view.item-wrap.flex
+      view.left *联系方式:
+      input.middle(placeholder="输入手机号码" type="number" bindinput="onInputMobile") 
+    view.item-wrap.flex.location(@tap="onTapLocation")
+      view.left *所属地址:
+      view.middle.middle-text {{address}}
+      image.right(src='./images/address.svg')
+    view.item-wrap.flex(style="border-bottom: none")
+      view.left 详细信息:
+      input.middle(placeholder="输入楼号门牌号等详细信息" bindinput="onInputDetail")
+  button.btn(@tap="onTapSave") 保存
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Toast from '@/components/zan-toast'
+  import testMixin from '../mixins/test'
+
+  export default class MyAddress extends wepy.page {
+    config = {
+      navigationBarTitleText: '旺铺'
+    }
+    components = {
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      deliveryInfo: [],
+      name: '',
+      mobile: '',
+      address: '',
+      addressDetail: '',
+      latitude: '',
+      longitude: ''
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      async onTapLocation() {
+        const {name, address, latitude, longitude} = await wepy.chooseLocation()
+        if (name && address && latitude && longitude) {
+          this.address = address + name
+          this.latitude = latitude
+          this.longitude = longitude
+          this.$apply()
+        }
+      },
+      async onTapSave() {
+        wepy.navigateBack()
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      this.$invoke('toast', 'getUserInfo')
+    }
+  }
+</script>
