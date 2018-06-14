@@ -156,6 +156,13 @@ page{
   import wepy from 'wepy'
   import zanNoticebar from '@/components/zan-noticebar'
   import testMixin from '../mixins/test'
+  import { connect } from 'wepy-redux'
+
+  @connect({
+    store (state) {
+      return state
+    }
+  }, {})
 
   export default class Main extends wepy.page {
     config = {
@@ -217,6 +224,7 @@ page{
     }
 
     onLoad() {
+      if (!this.store.user.wxInfo) this.$navigate('/pages/user/getUserInfo')
       this.$invoke('zanNoticebar', 'initZanNoticeBarScroll')
     }
   }

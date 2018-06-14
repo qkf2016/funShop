@@ -5,9 +5,22 @@
 page{
   padding-bottom: 30rpx; 
 }
-.cover{
+.cover-wrap{
+  position: relative;
   width: 750rpx;
   height: 300rpx;
+  background: $theme;
+  border-top: 1px solid $white;
+  .head-img{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 30rpx;
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 400rpx;
+    background: $white;
+  }
 }
 .about-market{
   width: 100%;
@@ -26,7 +39,7 @@ page{
       font-size: 42rpx;
       font-weight: 700;
     }
-    .address{
+    .address, .working-time{
       width: 690rpx;
       font-size: 32rpx;
     }
@@ -42,12 +55,12 @@ page{
     }
   }
 }
-.modules-wrap-market{
+.modules-wrap{
   box-sizing: border-box;
   margin-top: 20rpx;    
   background: $white;
   border-top: 1px solid $gray-light;
-  .about{
+  .module{
     justify-content: space-between;
     align-items: center;
     height: 90rpx;
@@ -81,39 +94,35 @@ page{
 </style>
 
 <template lang='pug'>
-  image.cover(src="/pages/images/demo1.jpeg" mode="aspectFill")         
+  view.cover-wrap   
+    view.head-img
   view.about-market(@tap="onTapPhone({{baseInfo.phone}})")
     view.market-detail
-      view.name 海口良明包装材料有限公司 
-      view.address 营业时间：09:00 —— 18:00            
-      view.address 地址： 海南省海口市秀英区永万工业开发区海盛路113号内厂房
+      view.name 海口趣玩儿店信息科技
+      view.working-time 营业时间：09:00 —— 18:00            
+      view.address 地址： 海南省海口市琼山区海南师范大学
       view.phone.flex
-        view.text 咨询热线：18708965705
+        view.text 客服热线：18708965705
         view.icon.zan-icon.zan-icon-phone
-
-  view.modules-wrap-market.flex(style='margin-top: 0')
-    view.about.flex.flex-p-1(@tap="onTapAbout" style="border-right: 1px solid #f0f0f0; justify-content: center;")
-      view.left.flex
-        image.image.flex(src="/pages/images/about.svg")
-        view.content 关于Ta
-    view.about.flex.flex-p-1(@tap="onTapShare" style="justify-content: center;")
-        view.left.flex
-          image.image.flex(src="/pages/images/share.svg")
-          view.content 分享Ta
-  view.modules-wrap-market
-    view.about.flex(bindtap="onTapOrder")
+  view.modules-wrap  
+    view.module.flex(bindtap="onTapOrder")
       view.left.flex
         view.image.zan-icon.zan-icon-pending-orders(style="color: #48c370")
         view.content 我的订单
       view.zan-icon.zan-icon-arrow(style="color: #999")
-    view.about.flex(@tap="onTapMyAddress")
+    view.module.flex(@tap="onTapMyAddress")
       view.left.flex
         image.image.flex(src="/pages/images/address.svg")
         view.content 收货地址
-      view.zan-icon.zan-icon-arrow(style="color: #999")   
+      view.zan-icon.zan-icon-arrow(style="color: #999")       
+    view.module.flex.flex-p-1(@tap="onTapShare")
+      view.left.flex
+        image.image.flex(src="/pages/images/share.svg")
+        view.content 分享店铺
+      view.zan-icon.zan-icon-arrow(style="color: #999")        
   view.technology
-    view 朗特赛数据科技
-    view  Hai nan LangTeSai Technology Co.
+    view 海南欢迎您
+    view Hai nan huanying nin
 </template>
 
 <script>

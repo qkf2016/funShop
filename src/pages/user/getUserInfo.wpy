@@ -33,8 +33,8 @@
 <template lang='pug'>
   view.wrap.flex
     image.imgae(src='/pages/images/authorize.svg')
-    view.msg(@tap='a') 授权登陆{{bkgetUserInfo}}
-    button.zan-btn.zan-btn--small.btn(open-type='getUserInfo' @tap='bkgetUserInfo') 微信登陆
+    view.msg 授权登陆
+    button.zan-btn.zan-btn--small.btn(open-type='getUserInfo' @tap='getUserInfo') 微信登陆
   </view>
 </template>
 
@@ -42,29 +42,33 @@
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
   import { getUserInfo } from '@/store/actions'
-  import { EDIT_USERINFO } from '@/store/types/user'
 
   @connect({
     store (state) {
       return state
     }
   }, {
-    editUserInfo: EDIT_USERINFO,
     getUserInfo
   })
   export default class GetUserInfo extends wepy.page {
     data = {
 
     }
+    computed = {
+      userInfo() {
+        if (this.store) return this.store.user.wxInfo
+      }
+    }
     watch = {
-
+      userInfo(newV, oldV) {
+        if (typeof oldV !== 'undefined') this.$switch('/pages/tabAbout')
+      }
     }
     methods = {
 
     }
     onLoad() {
       this.methods.getUserInfo()
-      // getUserInfo()
     }
   }
 </script>
