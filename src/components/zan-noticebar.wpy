@@ -2,8 +2,8 @@
 .zan-noticebar {
   position: relative;
   color: #f60;
-  padding: 9px 10px;
-  font-size: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
   line-height: 1.5;
   background-color: #fff7cc;
 }

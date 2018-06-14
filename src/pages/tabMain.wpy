@@ -2,9 +2,6 @@
 @import '../zanui/common';
 @import '../zanui/icon';
 @import '../zanui/panel';
-page{
-  padding-bottom: 50rpx;
-}
 .search-wrap{
   position: relative;
   width: 750rpx;
@@ -35,11 +32,11 @@ page{
   position: relative;
   .swiper{
       width: 100%;
-      height: 360rpx;
+      height: 280rpx;
   }
   .image{
       width: 750rpx;
-      height: 360rpx;
+      height: 280rpx;
   }
 }
 .goods-sort{   
@@ -57,8 +54,8 @@ page{
       .image{
           margin-left: 50%;
           transform: translate(-50%,0);
-          width: 80rpx;
-          height: 80rpx;
+          width: 90rpx;
+          height: 90rpx;
       }
       .content{
           margin-top: 6rpx;
@@ -69,23 +66,37 @@ page{
       }
   }
 }
-.hot-goods-wrap{
-  position: relative;
+.goods-advertisement{
+  box-sizing: border-box;
+  padding: 20rpx 30rpx;
   border-top: 20rpx solid $gray-light;
-  .image{
-      width: 100%;
-      height: 200rpx;
+  background: $white;
+  .content{
+    font-weight: 300;
+  }
+  .bar{
+    width: 152rpx;
+    height: 12rpx;
+    background: $theme;
   }
 }
 .scroll-view{
     background: #fff;    
     white-space: nowrap;
-    .hot-goods-detail-wrap{
+    padding-bottom: 30rpx;
+    .goods-detail-wrap{
       position: relative;
       display: inline-block;                    
       box-sizing: border-box;
       padding: 20rpx 20rpx 0 20rpx;
-      width: 214rpx;
+      width: 250rpx;
+      .good-tag{
+        position: absolute;
+        right: 10rpx;
+        width: 60rpx;
+        height: 60rpx;
+        color: $orange;
+      }
       .goods-wrap{
         flex-direction: column;
         justify-content: center;
@@ -115,36 +126,37 @@ page{
   view.swiper-wrap
       swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
           swiper-item(wx:for="{{activityImages}}" wx:key="id")
-              image.image(src="{{item}}" mode="aspectFill")  
+              image.image(src="{{item}}" mode="aspectFit")  
   view.goods-sort.flex
       view.type-wrap(wx:for="{{firstClass}}" wx:key="id" @tap='onTapMenue')
-          image.image(src="{{item}}" mode="aspectFit")
-          view.content 示例分类
+          image.image(src="{{item.image}}" mode="aspectFit")
+          view.content {{item.content}}
   view.zan-panel(style='margin-top: 0')
     zanNoticebar(:text="longText" componentId="movable")
-  view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
-      image.image(src="./images/box1.jpeg" lazy-load="{{true}}")  
+  view.goods-advertisement
+    view.content 新品首发 
+    view.bar
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.hot-goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
-          //- image.image-hot(src="./images/hot.svg")      
+      view.goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
+          view.zan-icon.zan-icon-new-arrival.good-tag    
           view.goods-wrap.flex(@tap='onTapProduct')
             image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
             view.name 示例商品
             view.price ¥50
-  view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
-      image.image(src="./images/box2.jpeg" lazy-load="{{true}}")  
-  scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.hot-goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
-          //- image.image-hot(src="./images/hot.svg")      
+  // view.goods-advertisement 
+    view.content 猜你喜欢  
+    view.bar
+  // scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
+      view.goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
           view.goods-wrap.flex(@tap='onTapProduct')
             image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
             view.name 示例商品
             view.price ¥50
-  view.hot-goods-wrap(@tap="onTapActivityGoods({{'hot'}})")
-      image.image(src="./images/box1.jpeg" lazy-load="{{true}}")  
+  view.goods-advertisement
+    view.content 活动推荐
+    view.bar  
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.hot-goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
-          //- image.image-hot(src="./images/hot.svg")      
+      view.goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
           view.goods-wrap.flex(@tap='onTapProduct')    
             image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
             view.name 示例商品
@@ -156,13 +168,6 @@ page{
   import wepy from 'wepy'
   import zanNoticebar from '@/components/zan-noticebar'
   import testMixin from '../mixins/test'
-  import { connect } from 'wepy-redux'
-
-  @connect({
-    store (state) {
-      return state
-    }
-  }, {})
 
   export default class Main extends wepy.page {
     config = {
@@ -176,33 +181,49 @@ page{
 
     data = {
       activityImages: [
-        './images/demo1.jpeg',
-        './images/demo2.jpeg',
-        './images/demo3.jpeg'
+        './images/haibao1.jpeg',
+        './images/haibao2.jpeg',
+        './images/haibao3.jpeg'
       ],
-      firstClass: [
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg',
-        './images/box.svg'
-      ],
-      longText: '开张笑纳城乡客，开业喜迎远近宾开张笑纳城乡客，开业喜迎远近宾开张笑纳城乡客，开业喜迎远近宾',
+      firstClass: [{
+        image: './images/lipin.svg',
+        content: '精美礼品'
+      }, {
+        image: './images/meizhuang.svg',
+        content: '日系美妆'
+      }, {
+        image: './images/yifu.svg',
+        content: '人靠衣装'
+      }, {
+        image: './images/show-desk.svg',
+        content: '专柜代购'
+      }, {
+        image: './images/hufupin.svg',
+        content: '面部护理'
+      }, {
+        image: './images/watch.svg',
+        content: '时尚手表'
+      }, {
+        image: './images/bage.svg',
+        content: '真品包包'
+      }, {
+        image: './images/tag.svg',
+        content: '国际大牌'
+      }, {
+        image: './images/drink.svg',
+        content: '奇妙饮品'
+      }, {
+        image: './images/guide.svg',
+        content: '查看更多'
+      }],
+      longText: '开张笑纳城乡客，开业喜迎远近宾. 趣玩儿店欢迎您',
       hotGoods: [
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg',
-        './images/box4.jpeg'
+        './images/main-goods2.jpeg',
+        './images/main-goods3.jpeg',
+        './images/main-goods4.jpeg',
+        './images/main-goods5.jpeg',
+        './images/main-goods6.jpeg',
+        './images/main-goods1.jpeg'
       ]
     }
 
@@ -224,7 +245,6 @@ page{
     }
 
     onLoad() {
-      if (!this.store.user.wxInfo) this.$navigate('/pages/user/getUserInfo')
       this.$invoke('zanNoticebar', 'initZanNoticeBarScroll')
     }
   }
