@@ -98,7 +98,7 @@
       view.zan-panel
         view.zan-card
           view.zan-card__thumb
-            image.zan-card__img(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg" mode="aspectFit")
+            image.zan-card__img(src="http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods1.jpeg" mode="aspectFit")
           view.zan-card__detail
             view.zan-card__detail-row {{index}} 一个纸箱【虚拟商品】
             view.zan-card__detail-row 单价：¥50 

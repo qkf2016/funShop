@@ -167,7 +167,7 @@ page{
 
     }
 
-    onLoad() {
+    onShow() {
       if (!this.wxInfo) this.$navigate('/pages/user/getUserInfo')
     }
   }

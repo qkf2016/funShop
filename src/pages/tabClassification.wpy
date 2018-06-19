@@ -25,28 +25,28 @@
     data = {
       menuP: [{
         id: 1,
-        name: '打包箱'
+        name: '商品分类'
       }, {
         id: 2,
-        name: '彩印箱'
+        name: '商品分类'
       }, {
         id: 3,
-        name: '水果箱'
+        name: '商品长分类'
       }, {
         id: 4,
-        name: '高档礼品盒'
+        name: '商品分类'
       }, {
         id: 5,
-        name: '地瓜箱'
+        name: '商品分类'
       }, {
         id: 6,
-        name: '葡萄箱'
+        name: '商品分类'
       }, {
         id: 7,
-        name: '木瓜箱'
+        name: '商品分类'
       }, {
         id: 8,
-        name: '芒果箱'
+        name: '商品分类'
       }]
     }
 

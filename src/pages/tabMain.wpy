@@ -31,7 +31,6 @@
 }
 // 店铺宣传
 .swiper-wrap{
-  position: relative;
   .swiper{
       width: 100%;
       height: 280rpx;
@@ -157,6 +156,7 @@
   background: $white;
   box-sizing: border-box;
   padding: 30rpx;
+  padding-top: 0;
   .goods-card{
     box-sizing: border-box;
     padding: 20rpx;
@@ -172,6 +172,12 @@
       color: $text-color;
       font-size: 28rpx;
       width: 100%;
+      // 编译规则  表示这段代码不编译
+      /* autoprefixer: off */
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;  
     }
     .sub{
       color: $gray-dark;
@@ -183,6 +189,7 @@
 </style>
 
 <template lang='pug'>
+  zanToast
   <!--商品搜索-->
   view.search-wrap
     view.zan-icon.zan-icon-search.icon
@@ -205,7 +212,7 @@
     view.content 新品首发 
     view.bar
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
+      view.goods-detail-wrap(wx:for="{{newGoods}}" wx:key="index")
           view.zan-icon.zan-icon-new-arrival.good-tag    
           view.goods-wrap.flex(@tap='onTapProduct')
             image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
@@ -226,7 +233,7 @@
     view.content 猜你喜欢 
     view.bar
   view.goods-card-wrap.flex
-    view.goods-card.flex(wx:for="{{gussYouLike}}")
+    view.goods-card.flex(wx:for="{{gussYouLike}}" wx:key="index" @tap='onTapProduct')
       image.image(src="{{item}}" lazy-load="{{true}}" mode="aspectFill")
       view.content 安全静音完美无可挑剔的示例商品                  
       view.sub 这是一段关于商品的描述                  
@@ -236,6 +243,7 @@
 <script>
   import wepy from 'wepy'
   import zanNoticebar from '@/components/zan-noticebar'
+  import zanToast from '@/components/zan-toast'
   import testMixin from '../mixins/test'
 
   export default class Main extends wepy.page {
@@ -243,16 +251,17 @@
       navigationBarTitleText: '趣玩儿店'
     }
     components = {
-      zanNoticebar: zanNoticebar
+      zanNoticebar,
+      zanToast
     }
 
     mixins = [testMixin]
 
     data = {
       activityImages: [
-        './images/haibao1.jpeg',
-        './images/haibao2.jpeg',
-        './images/haibao3.jpeg'
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/haibao1.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/haibao2.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/haibao3.jpeg'
       ],
       firstClass: [{
         image: './images/lipin.svg',
@@ -286,22 +295,24 @@
         content: '查看更多'
       }],
       longText: '开张笑纳城乡客，开业喜迎远近宾. 趣玩儿店欢迎您',
-      hotGoods: [
-        './images/main-goods2.jpeg',
-        './images/main-goods3.jpeg',
-        './images/main-goods4.jpeg'
+      newGoods: [
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods5.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods6.jpeg'
       ],
       tagsImage: [
-        './images/tags1.jpeg',
-        './images/tags2.jpeg',
-        './images/tags3.jpeg',
-        './images/tags4.jpeg'
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags1.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags2.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags3.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags4.jpeg'
       ],
       gussYouLike: [
-        './images/goods-biger1.jpeg',
-        './images/goods-biger2.jpeg',
-        './images/goods-biger3.jpeg',
-        './images/goods-biger1.jpeg'
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger2.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger3.jpeg',
+        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg'
       ]
     }
 
@@ -315,6 +326,9 @@
       },
       onTapProduct() {
         wepy.navigateTo({url: './productDetail'})
+      },
+      onReachBottom() {
+        this.$invoke('zanToast', 'showZanToast', { title: '没有更多了', timeout: 2000 })
       }
     }
 

@@ -23,16 +23,6 @@
 </template>
 <script>
 import wepy from 'wepy'
-import { connect } from 'wepy-redux'
-import { getUserInfo } from '@/store/actions'
-
-@connect({
-  store (state) {
-    return state
-  }
-}, {
-  getUserInfo
-})
 
 export default class zanToast extends wepy.component {
   props = {}
