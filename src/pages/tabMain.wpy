@@ -2,6 +2,7 @@
 @import '../zanui/common';
 @import '../zanui/icon';
 @import '../zanui/panel';
+// 搜索框
 .search-wrap{
   position: relative;
   width: 750rpx;
@@ -28,6 +29,7 @@
     text-align: center;
   }
 }
+// 店铺宣传
 .swiper-wrap{
   position: relative;
   .swiper{
@@ -39,7 +41,8 @@
       height: 280rpx;
   }
 }
-.goods-sort{   
+// 商品分类
+.shelves-class{   
   flex-wrap: wrap;    
   box-sizing: border-box;
   padding: 20rpx;
@@ -66,6 +69,7 @@
       }
   }
 }
+// 活动海报
 .goods-advertisement{
   box-sizing: border-box;
   padding: 20rpx 30rpx;
@@ -80,6 +84,7 @@
     background: $theme;
   }
 }
+// 新品首发
 .scroll-view{
     background: #fff;    
     white-space: nowrap;
@@ -112,27 +117,90 @@
             text-overflow: ellipsis;
             text-align: center;
             margin-top: 15rpx;
-            font-size: 26rpx;
+            font-size: 28rpx;
         }
       }
     }
 }  
+// 活动推荐
+.scroll-view{
+  background: #fff;    
+  white-space: nowrap;
+  padding-bottom: 30rpx;
+  .show-wrap{
+    position: relative;
+    display: inline-block;                    
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20rpx;
+    padding-right: 0;
+    width: 410rpx;
+    .image{
+      width: 390rpx;
+      height: 200rpx;
+    }
+    .content{
+      width: 85%;
+      font-size: 28rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+} 
+// 猜你喜欢
+.goods-card-wrap{
+  width: 750rpx;
+  flex-wrap: wrap;
+  background: $white;
+  box-sizing: border-box;
+  padding: 30rpx;
+  .goods-card{
+    box-sizing: border-box;
+    padding: 20rpx;
+    align-items: center;
+    flex-direction: column;
+    width: 345rpx;
+    .image{
+      width: 300rpx;
+      height: 300rpx;
+      margin-bottom: 20rpx;
+    }
+    .content{
+      color: $text-color;
+      font-size: 28rpx;
+      width: 100%;
+    }
+    .sub{
+      color: $gray-dark;
+      font-size: 26rpx;
+      width: 100%;
+    }
+  }
+} 
 </style>
 
 <template lang='pug'>
+  <!--商品搜索-->
   view.search-wrap
     view.zan-icon.zan-icon-search.icon
     view.input 请输入商品名称
+  <!--店铺宣传-->
   view.swiper-wrap
       swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
           swiper-item(wx:for="{{activityImages}}" wx:key="id")
-              image.image(src="{{item}}" mode="aspectFit")  
-  view.goods-sort.flex
+              image.image(src="{{item}}" mode="aspectFit")
+  <!--商品分类-->
+  view.shelves-class.flex
       view.type-wrap(wx:for="{{firstClass}}" wx:key="id" @tap='onTapMenue')
           image.image(src="{{item.image}}" mode="aspectFit")
           view.content {{item.content}}
+  <!--店铺通知-->
   view.zan-panel(style='margin-top: 0')
     zanNoticebar(:text="longText" componentId="movable")
+  <!--新品首发-->
   view.goods-advertisement
     view.content 新品首发 
     view.bar
@@ -143,25 +211,26 @@
             image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
             view.name 示例商品
             view.price ¥50
-  // view.goods-advertisement 
-    view.content 猜你喜欢  
-    view.bar
-  // scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
-          view.goods-wrap.flex(@tap='onTapProduct')
-            image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
-            view.name 示例商品
-            view.price ¥50
+  <!--活动推荐-->
   view.goods-advertisement
-    view.content 活动推荐
-    view.bar  
+    view.content 活动推荐 
+    view.bar
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.goods-detail-wrap(wx:for="{{hotGoods}}" wx:key="index")
-          view.goods-wrap.flex(@tap='onTapProduct')    
-            image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
-            view.name 示例商品
-            view.price ¥50                        
-
+    block(wx:for="{{tagsImage}}" wx:key="index")
+      view.show-wrap.flex
+        image.image(src="{{item}}" lazy-load="true" mode="aspectFill")
+        view.content 示例商品
+        view.content 这是一些介绍的话语    
+  <!--猜你喜欢-->
+  view.goods-advertisement
+    view.content 猜你喜欢 
+    view.bar
+  view.goods-card-wrap.flex
+    view.goods-card.flex(wx:for="{{gussYouLike}}")
+      image.image(src="{{item}}" lazy-load="{{true}}" mode="aspectFill")
+      view.content 安全静音完美无可挑剔的示例商品                  
+      view.sub 这是一段关于商品的描述                  
+      view.content ¥49                  
 </template>
 
 <script>
@@ -220,10 +289,19 @@
       hotGoods: [
         './images/main-goods2.jpeg',
         './images/main-goods3.jpeg',
-        './images/main-goods4.jpeg',
-        './images/main-goods5.jpeg',
-        './images/main-goods6.jpeg',
-        './images/main-goods1.jpeg'
+        './images/main-goods4.jpeg'
+      ],
+      tagsImage: [
+        './images/tags1.jpeg',
+        './images/tags2.jpeg',
+        './images/tags3.jpeg',
+        './images/tags4.jpeg'
+      ],
+      gussYouLike: [
+        './images/goods-biger1.jpeg',
+        './images/goods-biger2.jpeg',
+        './images/goods-biger3.jpeg',
+        './images/goods-biger1.jpeg'
       ]
     }
 
