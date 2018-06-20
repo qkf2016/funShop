@@ -7,7 +7,7 @@
 .content-left-wrap{
   background: $gray-light;
   position: fixed;
-  left: 0;
+  left: 0; 
   top: 0;
   bottom: 0;
   border-top: 1px solid $gray-light;
