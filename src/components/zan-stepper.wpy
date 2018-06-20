@@ -79,8 +79,8 @@ export default class zanStepper extends wepy.component {
       twoWay: true
     },
     index: {
-      type: Number,
-      default: 0
+      type: Array,
+      default: []
     },
     min: {
       type: Number,
@@ -102,14 +102,15 @@ export default class zanStepper extends wepy.component {
     },
 
     zanStepperPlus() {
-      this.$emit('zanStepperPlusP', this.index)
+      console.log(this.index)
+      this.$emit('zanStepperPlusP', this.stepper)
     }
     // handleZanStepperBlur(e) {
 
     // }
   }
   onLoad() {
-
+    console.log(this.index)
   }
 }
 </script>

@@ -25,28 +25,31 @@
     data = {
       menuP: [{
         id: 1,
-        name: '商品分类'
+        name: '粮油副食'
       }, {
         id: 2,
-        name: '商品分类'
+        name: '个护清洁'
       }, {
         id: 3,
-        name: '商品长分类'
+        name: '家电用器'
       }, {
         id: 4,
-        name: '商品分类'
+        name: '食品生鲜'
       }, {
         id: 5,
-        name: '商品分类'
+        name: '酒水饮料'
       }, {
         id: 6,
-        name: '商品分类'
+        name: '二手商品'
       }, {
         id: 7,
-        name: '商品分类'
+        name: '萌宠生活'
       }, {
         id: 8,
-        name: '商品分类'
+        name: '户外运动'
+      }, {
+        id: 9,
+        name: '玩具乐器'
       }]
     }
 
