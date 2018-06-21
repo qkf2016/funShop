@@ -1,0 +1,114 @@
+<style lang="scss">
+@import '../../zanui/common';
+.cover-wrap{
+  position: relative;
+  width: 750rpx;
+  height: 400rpx;
+  background: $white;
+  .head-img{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 120rpx;
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 400rpx;
+    border: 5rpx solid $white;
+  }
+  .edit{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 60rpx;
+    font-size: 28rpx;
+    color: $gray-darker;
+  }
+}
+.user-info-wrap{
+  box-sizing: border-box;
+  width: 750rpx;
+  padding: 30rpx;
+  background: $white;
+  border-top: 15rpx solid $background-color;
+  .item-wrap{
+    .name{
+      height: 80rpx;
+      line-height: 80rpx;
+      width: 160rpx;
+      color: $gray-darker;
+    }
+    .content{
+      width: 500rpx;
+      height: 80rpx;
+    }
+  }
+}
+</style>
+
+<template lang='pug'>
+  view.cover-wrap
+    image.head-img(src='{{wxInfo.avatarUrl}}' mode='aspectFit')   
+    view.edit 点击更换头像
+  view.user-info-wrap   
+    view.item-wrap.flex
+      view.name 昵称
+      input.content(placeholder="请输入您的昵称" value="{{wxInfo.nickName}}" data-nick-name='nickName' bindinput="onInputName")
+    view.item-wrap.flex
+      view.name 手机号
+      input.content(placeholder="手机号即是您的会员号" value="{{}}" data-phone='phone' bindinput="onInputPhone")  
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import { editUserInfo } from '@/store/actions'
+
+  @connect({
+    wxInfo (state) {
+      return state.user.wxInfo
+    }
+  }, {
+    editUserInfo
+  })
+
+  export default class EditUserInfo extends wepy.page {
+    config = {
+      navigationBarTitleText: '趣玩儿店'
+    }
+    components = {
+
+    }
+
+    mixins = []
+
+    data = {
+
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      onInputName(e) {
+        let key = e.currentTarget.dataset.nickName
+        let value = e.detail.value
+        this.methods.editUserInfo({key, value})
+      },
+      onInputPhone(e) {
+        let key = e.currentTarget.dataset.phone
+        let value = e.detail.value
+        this.methods.editUserInfo({key, value})
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

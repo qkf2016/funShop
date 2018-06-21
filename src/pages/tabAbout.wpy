@@ -48,6 +48,7 @@ page{
       align-items: center;
       font-size: 32rpx;            
       .icon{
+        margin-top: -10rpx;
         width: 40rpx;
         height: 40rpx;
         color: $green;
@@ -94,7 +95,7 @@ page{
 </style>
 
 <template lang='pug'>
-  image.cover-wrap(src='{{wxInfo.avatarUrl}}' mode='aspectFill')
+  image.cover-wrap(src='{{wxInfo.avatarUrl}}' mode='aspectFill' @tap="onTapEdit")
     image.head-img(src='{{wxInfo.avatarUrl}}' mode='aspectFit')
   view.about-market
     view.market-detail
@@ -102,8 +103,8 @@ page{
       view.working-time 营业时间：09:00 —— 18:00            
       view.address 地址： {{wxInfo.province}} {{wxInfo.city}}
       view.phone.flex
-        view.text 客服热线：18708965705
-        view.icon.zan-icon.zan-icon-phone
+        view.text 客服微信：qukaifeia
+        view.icon.zan-icon.zan-icon-add-o
   view.modules-wrap  
     view.module.flex(bindtap="onTapOrder")
       view.left.flex
@@ -155,11 +156,14 @@ page{
     }
 
     methods = {
+      onTapEdit() {
+        wepy.navigateTo({url: './user/editUserInfo'})
+      },
       onTapMyAddress() {
-        wepy.navigateTo({url: './myAddress'})
+        wepy.navigateTo({url: './user/myAddress'})
       },
       onTapOrder() {
-        wepy.navigateTo({url: './myOrder'})
+        wepy.navigateTo({url: './user/myOrder'})
       }
     }
 

@@ -7,7 +7,7 @@
   height: 300rpx;
   width: 100%;
   background: $white;
-  .info{
+  .info-wrap{
     box-sizing: border-box;
     padding: 0 20rpx;
     border-bottom: 1px solid $gray-light;
@@ -78,21 +78,26 @@
 
 <template lang='pug'>
   toast
-  view.delivery-info-wrap(@tap="onTapDefault({{item.id}})")
-    view.info
-      view.name 屈凯飞  18708965705
-      view.delivery 海南省海口市琼山区龙昆南路99号海南师范大学
-    view.flex.control
-      view.flex.flex-p-1.left
-        view.image.zan-icon.zan-icon-checked
-        view.default {{ (item.defaultAddress)? '默认地址' : '设为默认' }}
-      view.flex.flex-p-1.right
-        //- view.edit-wrap.flex(data-id="{{item.id}}" bindtap="editDeliveryInfo")
-            image.edit(src="./images/edit.svg")
-            view 编辑
-        view.remove-wrap.flex(@tap.stop="onTapDelete({{item.id}}, {{item.defaultAddress}})")
-            view.remove.zan-icon.zan-icon-delete
-            view 删除
+  block(wx:if="{{addressArr.length}}")
+    view.delivery-info-wrap(wx:for="{{addressArr}}" wx:key="item")
+      view.info-wrap
+        view.name {{item.userName}}  {{item.telNumber}}
+        view.delivery {{item.address}}
+      view.flex.control
+        view.flex.flex-p-1.left
+          view.image.zan-icon.zan-icon-checked
+          view.default {{ (item.defaultAddress)? '默认地址' : '设为默认' }}
+        view.flex.flex-p-1.right
+          //- view.edit-wrap.flex(data-id="{{item.id}}" bindtap="editDeliveryInfo")
+              image.edit(src="./images/edit.svg")
+              view 编辑
+          view.remove-wrap.flex(@tap.stop="onTapDelete({{item.id}}, {{item.defaultAddress}})")
+              view.remove.zan-icon.zan-icon-delete
+              view 删除
+  block(wx:else)
+    view.__blank-section
+      image.image(src="/pages/images/none.svg")
+      view.text 空空如也  
   view.add-new-wrap(@tap="onTapAddAddress")   
       view.button + 新建地址
 </template>
@@ -101,6 +106,16 @@
   import wepy from 'wepy'
   import Toast from '@/components/zan-toast'
   import testMixin from '@/mixins/test'
+  import { connect } from 'wepy-redux'
+  import { addAddress } from '@/store/actions'
+
+  @connect({
+    addressArr (state) {
+      return state.user.addressArr
+    }
+  }, {
+    addAddress
+  })
 
   export default class MyAddress extends wepy.page {
     config = {
@@ -133,8 +148,16 @@
           // this.$apply()
         }
       },
-      onTapAddAddress() {
-        wepy.navigateTo({url: './addAddress'})
+      async onTapAddAddress() {
+        const {userName, telNumber, cityName, countyName, detailInfo, postalCode} = await wepy.chooseAddress()
+        let addressInfo = {
+          userName,
+          telNumber,
+          address: cityName + countyName + detailInfo,
+          postalCode: postalCode || ''
+        }
+        await this.methods.addAddress(addressInfo)
+        this.$apply()
       }
     }
 
@@ -143,6 +166,10 @@
     }
 
     onLoad() {
+
+    }
+
+    onShow() {
 
     }
   }
