@@ -1,7 +1,7 @@
 <style lang="scss">
-@import '../zanui/common';
-@import '../zanui/icon';
-@import '../zanui/btn';
+@import '../../zanui/common';
+@import '../../zanui/icon';
+@import '../../zanui/btn';
 page{
   padding-bottom: 120rpx;
 }

@@ -63,11 +63,11 @@ export default class extends wepy.app {
       'pages/tabShopCar',
       'pages/tabAbout',
       'pages/productDetail',
-      'pages/myAddress',
-      'pages/addAddress',
-      'pages/myOrder',
-      'pages/orderDetail',
 
+      'pages/user/myAddress',
+      'pages/user/addAddress',
+      'pages/user/myOrder',
+      'pages/user/orderDetail',
       'pages/user/getUserInfo'
     ],
     window: {

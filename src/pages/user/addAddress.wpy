@@ -1,6 +1,6 @@
 <style lang="scss">
-@import '../zanui/common';
-@import '../zanui/icon';
+@import '../../zanui/common';
+@import '../../zanui/icon';
 .info-wrap{
   box-sizing: border-box;
   padding: 20rpx 30rpx;
@@ -59,7 +59,7 @@
 <script>
   import wepy from 'wepy'
   import Toast from '@/components/zan-toast'
-  import testMixin from '../mixins/test'
+  import testMixin from '@/mixins/test'
 
   export default class MyAddress extends wepy.page {
     config = {

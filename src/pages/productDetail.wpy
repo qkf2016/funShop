@@ -80,71 +80,55 @@ page{
 <template lang="pug">
   view.swiper-wrap
     swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
-      swiper-item(wx:for="{{goodsArr}}" wx:key="id")
+      swiper-item(wx:for="{{goodsDetail.mainImgs}}" wx:key="id")
         image.image(src="{{item}}" mode="aspectFill")
   view.goods-info 
-    view.name 测试商品
-    view.desc 货真价实 诚信经营
+    view.name {{goodsDetail.name}}
+    view.desc {{goodsDetail.spec}}
     view.good-price-wrap
       image.rmb(src="./images/rmb.svg")        
-      view.good-promotionsPrice 60
-      // view.good-price / ¥80
+      view.good-promotionsPrice {{goodsDetail.promotionsPrice}}
+      // view.good-price / ¥{{goodsDetail.promotionsPrice}}
   zanTab(:tab.sync="tab" componentId="tab")
   view.image-min-wrap.flex(wx:if="{{tab.selectedId === 'showImg'}}")
-      block(wx:for='{{goodsDetailArr}}' wx:key="item")
+      block(wx:for='{{goodsDetail.detailImgs}}' wx:key="item")
         image.image(src="{{item}}" mode="widthFix")
   view(wx:else)
     view.zan-panel(style="margin-top: 15rpx")
-      view.zan-cell
+      view.zan-cell(wx:for='{{goodsDetail.options}}')
         view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
-        view.zan-cell__bd 佩戴方式
-        view.zan-cell__ft 入耳式    
-      view.zan-cell
-        view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
-        view.zan-cell__bd 产品重量
-        view.zan-cell__ft 500g
-      view.zan-cell
-        view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
-        view.zan-cell__bd 规格
-        view.zan-cell__ft 50mm x 50mm x 50mm   
-      view.zan-cell
-        view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
-        view.zan-cell__bd 型号
-        view.zan-cell__ft 193S20          
-      view.zan-cell
-        view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
-        view.zan-cell__bd 产地
-        view.zan-cell__ft 海口               
-  shopCar(:syncShopCar.sync="shopCarP" wx:if="{{showShopCar}}")
-  view.zan-btn.zan-btn--large.zan-btn--danger.foot(wx:else @tap="onTapBuy") 立即购买
+        view.zan-cell__bd {{item.name}}
+        view.zan-cell__ft {{item.content}}                
+  // shopCar(:syncShopCar.sync="shopCarP" wx:if="{{showShopCar}}")
+  view.zan-btn.zan-btn--large.zan-btn--danger.foot(@tap="onTapBuy") 立即购买
 </template>
 
 <script>
   import wepy from 'wepy'
   import ZanTab from '@/components/zan-tab'
   import ShopCar from '@/components/shop-car'
+  import { connect } from 'wepy-redux'
+
+  @connect({
+    shopCar (state) {
+      return state.shopCar
+    }
+  })
 
   export default class ProductDetail extends wepy.page {
     config = {
       navigationBarTitleText: '超市汇'
     }
+
     mixins = []
+
     components = {
       zanTab: ZanTab,
       shopCar: ShopCar
     }
+
     data = {
       showShopCar: false,
-      goodsArr: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail3.jpeg'
-      ],
-      goodsDetailArr: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail4.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail6.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail7.jpeg'
-      ],
       tab: {
         list: [
           {
@@ -158,16 +142,51 @@ page{
         ],
         selectedId: 'showImg',
         scroll: false
+      },
+      goodsDetail: {
+        name: '测试商品',
+        spec: '这是一段商品的描述话语',
+        price: 59,
+        promotionsPrice: 49,
+        mainImgs: [
+          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg',
+          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail2.jpeg',
+          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail3.jpeg'
+        ],
+        detailImgs: [
+          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail4.jpeg',
+          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail6.jpeg',
+          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail7.jpeg'
+        ],
+        options: [
+          {
+            name: '佩戴方式',
+            content: '入耳式'
+          }, {
+            name: '产品重量',
+            content: '50g'
+          }, {
+            name: '规格',
+            content: '50mm x 50mm x 50mm'
+          }, {
+            name: '型号',
+            content: 'Y1S93S20'
+          }, {
+            name: '产地',
+            content: '海口'
+          }
+        ]
       }
     }
+
     computed = {
-      shopCarP() {
-        return this.$parent.globalData.shopCar
-      }
+
     }
+
     watch = {
 
     }
+
     events = {
       zanTabChange(selectedId, event) {
         let { componentId } = event.source
@@ -175,6 +194,7 @@ page{
         this.$apply()
       }
     }
+
     methods = {
       onTapBuy() {
         let obj = {
@@ -201,6 +221,7 @@ page{
         this.showShopCar = !this.showShopCar
       }
     }
+  
     onLoad() {
 
     }

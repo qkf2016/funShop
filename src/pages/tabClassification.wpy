@@ -1,29 +1,131 @@
 <style lang="scss">
+@import '../zanui/panel';
+@import '../zanui/card';
 @import '../zanui/btn';
 @import '../zanui/common';
+
+// 一级分类
+.content-left-wrap{
+  background: $gray-light;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-top: 1px solid $gray-light;
+  border-right: 1px solid $gray-light;
+  box-sizing: border-box;
+  width: 25%;
+  font-size: 32rpx;
+  text-align: center;
+  .item{
+    height: 100rpx;
+    line-height: 100rpx;
+    color: $text-color;
+  }
+  .item-checked{
+    color: $theme !important;
+    background: $white;
+  }
+}
+// 二级分类
+.content-right-wrap{
+  background: $white;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 75%;  
+  .title-wrap{
+    align-items: center;        
+    box-sizing: border-box;
+    border-top: 1px solid $gray-light;         
+    border-bottom: 1px solid $gray-light; 
+    padding: 0 20rpx;
+    width: 100%;
+    height: 70rpx;
+    line-height: 70rpx;
+    background: $white;   
+    text-align: center;
+    font-size: 30rpx;
+    .shuxian{
+        height: 40rpx;
+        width: 10rpx;
+        background: $theme;
+        margin-right: 16rpx;
+        border-radius: 10rpx;
+    }
+    .content{
+        color: $theme;
+        font-weight: 400;
+    }
+  }
+  .right-wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 180rpx;
+
+  }
+  .name{
+    // 编译规则  表示这段代码不编译
+    /* autoprefixer: off */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .spec{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: $gray-darker; 
+  }
+}
 </style>
 
 <template lang='pug'>
-  shelves(:syncMenu.sync="menuP")
-  shopCar(:syncShopCar.sync="shopCarP" wx:if="{{shopCarP.length > 1}}")
+  <!--左侧一级分类-->
+  scroll-view.content-left-wrap(scroll-y)
+    view.item(wx:for="{{menu}}" wx:key="id")
+      view.name(class="{{item.id===currentMenu?'item-checked':''}}" @tap='onTapMenu({{item.id}})') {{item.name}}
+  <!--右侧商品展示-->
+  scroll-view.content-right-wrap(scroll-y)
+    block(wx:for="{{productArr}}" wx:key="index")
+      view.title-wrap.flex
+        view.shuxian
+        view.content {{item.secondName}}
+      view.zan-panel(wx:for="{{item.goodsArr}}" wx:key="index" wx:for-item="goodDetail" wx:for-index="goodIndex" @tap="onTapDetail")
+        view.zan-card
+          view.zan-card__thumb
+            image.zan-card__img(src="{{goodDetail.img}}" mode="aspectFit")
+          view.zan-card__detail.right-wrap
+            view.zan-card__detail-row.name {{goodDetail.name}}
+            view.zan-card__detail-row.spec {{goodDetail.spec}}
+            view.zan-card__detail-row 单价：¥{{goodDetail.price}}
 </template>
 
 <script>
   import wepy from 'wepy'
-  import Shelves from '@/components/shelves'
   import ShopCar from '@/components/shop-car'
+  import { connect } from 'wepy-redux'
+
+  @connect({
+    shopCar (state) {
+      return state.shopCar
+    }
+  })
 
   export default class Classification extends wepy.page {
     config = {
       navigationBarTitleText: '趣玩儿店'
     }
     components = {
-      shelves: Shelves,
       shopCar: ShopCar
     }
     mixins = []
     data = {
-      menuP: [{
+      currentMenu: 1,
+      menu: [{
         id: 1,
         name: '粮油副食'
       }, {
@@ -50,17 +152,69 @@
       }, {
         id: 9,
         name: '玩具乐器'
+      }],
+      productArr: [{
+        secondId: 1,
+        secondName: '二级类目名',
+        goodsArr: [{
+          id: 1,
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods1.jpeg',
+          name: '拉杆箱',
+          spec: '钛泽银',
+          price: 150
+        }, {
+          id: 2,
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
+          name: '黑色短袖',
+          spec: '五彩斑斓的黑',
+          price: 100
+        }]
+      }, {
+        secondId: 2,
+        secondName: '二级类目名',
+        goodsArr: [{
+          id: 3,
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg',
+          name: 'MackBook 玫瑰金 2017新款上市 美国苹果公司超强产品',
+          spec: '256G固态',
+          price: 15500
+        }, {
+          id: 4,
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg',
+          name: '商品名4',
+          spec: '透明色',
+          price: 99
+        }]
+      }, {
+        secondId: 1,
+        secondName: '二级类目名',
+        goodsArr: [{
+          id: 1,
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods1.jpeg',
+          name: '拉杆箱',
+          spec: '钛泽银',
+          price: 150
+        }, {
+          id: 2,
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
+          name: '黑色短袖',
+          spec: '五彩斑斓的黑',
+          price: 100
+        }]
       }]
     }
 
     computed = {
-      shopCarP() {
-        return this.$parent.globalData.shopCar
-      }
+
     }
 
     methods = {
-
+      onTapMenu(id) {
+        this.currentMenu = id
+      },
+      onTapDetail() {
+        wepy.navigateTo({url: '/pages/productDetail'})
+      }
     }
 
     events = {
