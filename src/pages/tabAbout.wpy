@@ -43,8 +43,8 @@ page{
       width: 690rpx;
       font-size: 32rpx;
     }
-    .phone{
-      justify-content: space-between;
+    .wx-number{
+      justify-content: flex-start;
       align-items: center;
       font-size: 32rpx;            
       .icon{
@@ -52,6 +52,9 @@ page{
         width: 40rpx;
         height: 40rpx;
         color: $green;
+      }
+      .copy{
+        margin-left: 40rpx;
       }
     }
   }
@@ -95,16 +98,16 @@ page{
 </style>
 
 <template lang='pug'>
-  image.cover-wrap(src='{{mallInfo.avatarUrl}}' mode='aspectFill' @tap="onTapEdit")
+  image.cover-wrap(src='{{mallInfo.avatarUrl}}' mode='aspectFill')
     image.head-img(src='{{mallInfo.avatarUrl}}' mode='aspectFit')
   view.about-market
     view.market-detail
       view.name {{mallInfo.nickName}}的趣玩儿店
       view.working-time 营业时间：{{mallInfo.workTime}}          
       view.address 地址： {{mallInfo.address}}
-      view.phone.flex
+      view.wx-number.flex
         view.text 客服微信：{{mallInfo.wxNumber}}
-        view.icon.zan-icon.zan-icon-add-o
+        view.copy.zan-btn.zan-btn--mini 点击复制
   view.modules-wrap  
     view.module.flex(bindtap="onTapOrder")
       view.left.flex

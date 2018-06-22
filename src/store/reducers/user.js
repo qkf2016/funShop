@@ -24,7 +24,6 @@ export default handleActions({
   // 新增收货地址
   [ADD_ADDRESS] (state, action) {
     state.addressArr.push(action.payload)
-    console.log(state.addressArr)
     return {
       addressArr: state.addressArr
     }

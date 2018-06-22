@@ -13,7 +13,7 @@
 </style>
 
 <template lang='pug'>
-  image.writeAddress(src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
+  image.writeAddress(wx:if="{{!addressArr.length}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
   view.__blank-section
     image.image(src="/pages/images/none.svg")
     view.text 空空如也  
@@ -23,6 +23,16 @@
 <script>
   import wepy from 'wepy'
   import testMixin from '../mixins/test'
+  import { connect } from 'wepy-redux'
+  import { addAddress } from '@/store/actions'
+
+  @connect({
+    addressArr (state) {
+      return state.user.addressArr
+    }
+  }, {
+    addAddress
+  })
 
   export default class ShopCar extends wepy.page {
     config = {
@@ -43,8 +53,16 @@
     }
 
     methods = {
-      onTapAddAddress() {
-        wepy.navigateTo({url: './addAddress'})
+      async onTapAddAddress() {
+        const {userName, telNumber, cityName, countyName, detailInfo, postalCode} = await wepy.chooseAddress()
+        let addressInfo = {
+          userName,
+          telNumber,
+          address: cityName + countyName + detailInfo,
+          postalCode: postalCode || ''
+        }
+        await this.methods.addAddress(addressInfo)
+        this.$apply()
       },
       onTapShopping() {
         wepy.switchTab({url: '/pages/tabClassification'})
