@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import user from './user'
-import shopCar from './shopCar'
+import mall from './mall'
+import shoping from './shoping'
 
 export default combineReducers({
   user,
-  shopCar
+  mall,
+  shoping
 })

@@ -4,16 +4,6 @@ import 'wepy-async-function'
 
 import { GET_USERINFO, EDIT_USERINFO, ADD_ADDRESS } from '../types/user'
 
-// // 例子
-// export const getUserInfo = createAction(GET_USERINFO, () => {
-//   console.log('我执行了', GET_USERINFO)
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve(1)
-//     }, 1000)
-//   })
-// })
-
 // 获取用户信息
 export const getUserInfo = createAction(GET_USERINFO, async function () {
   const { userInfo } = await wepy.getUserInfo()

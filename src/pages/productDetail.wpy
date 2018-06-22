@@ -95,7 +95,7 @@ page{
         image.image(src="{{item}}" mode="widthFix")
   view(wx:else)
     view.zan-panel(style="margin-top: 15rpx")
-      view.zan-cell(wx:for='{{goodsDetail.options}}')
+      view.zan-cell(wx:for='{{goodsDetail.options}}' wx:key="item")
         view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
         view.zan-cell__bd {{item.name}}
         view.zan-cell__ft {{item.content}}                

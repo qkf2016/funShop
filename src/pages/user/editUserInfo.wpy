@@ -55,7 +55,7 @@
       input.content(placeholder="请输入您的昵称" value="{{wxInfo.nickName}}" data-nick-name='nickName' bindinput="onInputName")
     view.item-wrap.flex
       view.name 手机号
-      input.content(placeholder="手机号即是您的会员号" value="{{}}" data-phone='phone' bindinput="onInputPhone")  
+      input.content(placeholder="手机号即是您的会员号" type="number" value="{{}}" data-phone='phone' bindinput="onInputPhone")  
   </view>
 </template>
 
