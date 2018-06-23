@@ -58,11 +58,11 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/tabMain',
-
       'pages/tabClassification',
       'pages/tabShopCar',
       'pages/tabAbout',
-      'pages/productDetail',
+
+      'pages/mall/productDetail',
 
       'pages/user/myAddress',
       'pages/user/myOrder',

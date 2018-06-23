@@ -1,9 +1,9 @@
 <style lang="scss">
-@import '../zanui/common';
-@import '../zanui/btn';
-@import '../zanui/panel';
-@import '../zanui/cell';
-@import '../zanui/icon';
+@import '../../zanui/common';
+@import '../../zanui/btn';
+@import '../../zanui/panel';
+@import '../../zanui/cell';
+@import '../../zanui/icon';
 page{
   padding-bottom: 120rpx;
 }
@@ -132,7 +132,7 @@ page{
     view.name {{goodsDetail.name}}
     view.desc {{goodsDetail.spec}}
     view.good-price-wrap
-      image.rmb(src="./images/rmb.svg")        
+      image.rmb(src="/pages/images/rmb.svg")        
       view.good-promotionsPrice {{goodsDetail.promotionsPrice}}
       // view.good-price / ¥{{goodsDetail.promotionsPrice}}
   zanTab(:tab.sync="tab" componentId="tab")
@@ -151,15 +151,20 @@ page{
     view.item-type1.flex
       image.image(src="/pages/images/shopcar.svg")
       view 购物车      
-    view.right.flex
+    view.right.flex(@tap="toggleBottomPopup")
       view.item-type2 加入购物车
       view.item-type3 马上购买
+  zanPopup(direction="bottom")
+    view.zan-btns(slot="popupContent")
+      button.zan-btn(@tap="toggleBottomPopup") 关闭 popup111
+      button.zan-btn(@tap="toggleBottomPopup") 关闭 popup111
 </template>
 
 <script>
   import wepy from 'wepy'
   import ZanTab from '@/components/zan-tab'
   import ShopCar from '@/components/shop-car'
+  import zanPopup from '@/components/zan-popup'
   import { connect } from 'wepy-redux'
 
   @connect({
@@ -177,7 +182,8 @@ page{
 
     components = {
       zanTab: ZanTab,
-      shopCar: ShopCar
+      shopCar: ShopCar,
+      zanPopup: zanPopup
     }
 
     data = {
@@ -249,6 +255,9 @@ page{
     }
 
     methods = {
+      toggleBottomPopup() {
+        this.$invoke('zanPopup', 'togglePopup')
+      },
       onTapBuy() {
         let obj = {
           id: 2,

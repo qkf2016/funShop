@@ -325,7 +325,7 @@
         wepy.switchTab({url: '/pages/tabClassification'})
       },
       onTapProduct() {
-        wepy.navigateTo({url: './productDetail'})
+        wepy.navigateTo({url: '/pages/mall/productDetail'})
       },
       onReachBottom() {
         this.$invoke('zanToast', 'showZanToast', { title: '没有更多了', timeout: 2000 })
