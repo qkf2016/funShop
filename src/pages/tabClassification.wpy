@@ -14,7 +14,7 @@
   border-top: 1px solid $gray-light;
   border-right: 1px solid $gray-light;
   box-sizing: border-box;
-  width: 25%;
+  width: 186rpx;
   font-size: 32rpx;
   text-align: center;
   .item{
@@ -34,7 +34,7 @@
   right: 0;
   top: 0;
   bottom: 0;
-  width: 75%;  
+  width: 564rpx; 
   .title-wrap{
     align-items: center;        
     box-sizing: border-box;
@@ -59,26 +59,55 @@
         font-weight: 400;
     }
   }
-  .right-wrap{
+  .content-wrap{
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 180rpx;
-
+    .name{
+      // 编译规则  表示这段代码不编译
+      /* autoprefixer: off */
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .spec{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: $gray-darker; 
+    }
   }
-  .name{
-    // 编译规则  表示这段代码不编译
-    /* autoprefixer: off */
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  .head-wrap{
+    width: 100%;
+    height: 150rpx;
+    line-height: 150rpx;
+    background: $active-color;
+    text-align: center;
+    font-weight: 300;
   }
-  .spec{
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: $gray-darker; 
+  .class-wrap{
+    width: 100%;
+    flex-wrap: wrap;
+    .item-wrap{
+      width: 188rpx;
+      flex-direction: column;
+      font-size: 28rpx;
+      color: $text-color;
+      box-sizing: border-box;
+      padding: 10rpx;
+      .image{
+        width: 168rpx;
+        height: 168rpx;
+      }
+      .content{
+        width: 168rpx;
+        text-align: center;
+        height: 60rpx;
+        line-height: 60rpx;
+      }
+    }
   }
 }
 </style>
@@ -87,10 +116,15 @@
   <!--左侧一级分类-->
   scroll-view.content-left-wrap(scroll-y)
     view.item(wx:for="{{menu}}" wx:key="id")
-      view.name(class="{{item.id===currentMenu?'item-checked':''}}" @tap='onTapMenu({{item.id}})') {{item.name}}
+      view.name(class="{{item.id === currentMenu.id?'item-checked':''}}" @tap='onTapMenu({{item.id}}, {{item.name}})') {{item.name}}
   <!--右侧商品展示-->
   scroll-view.content-right-wrap(scroll-y)
-    block(wx:for="{{productArr}}" wx:key="index")
+    view.head-wrap {{currentMenu.name}}
+    view.class-wrap.flex
+      view.item-wrap.flex(wx:for="{{classTwo}}" wx:key="item")
+        image.image(src="{{item.img}}" mode="aspectFit")
+        view.content {{item.name}}
+    // block(wx:for="{{productArr}}" wx:key="index")
       view.title-wrap.flex
         view.shuxian
         view.content {{item.secondName}}
@@ -98,7 +132,7 @@
         view.zan-card
           view.zan-card__thumb
             image.zan-card__img(src="{{goodDetail.img}}" mode="aspectFit")
-          view.zan-card__detail.right-wrap
+          view.zan-card__detail.content-wrap
             view.zan-card__detail-row.name {{goodDetail.name}}
             view.zan-card__detail-row.spec {{goodDetail.spec}}
             view.zan-card__detail-row 单价：¥{{goodDetail.price}}
@@ -117,14 +151,18 @@
 
   export default class Classification extends wepy.page {
     config = {
-      navigationBarTitleText: '趣玩儿店'
+      navigationBarTitleText: '趣玩儿店',
+      disableScroll: true
     }
     components = {
       shopCar: ShopCar
     }
     mixins = []
     data = {
-      currentMenu: 1,
+      currentMenu: {
+        id: 1,
+        name: '粮油副食'
+      },
       menu: [{
         id: 1,
         name: '粮油副食'
@@ -152,6 +190,31 @@
       }, {
         id: 9,
         name: '玩具乐器'
+      }],
+      classTwo: [{
+        id: 1,
+        name: '潮流短袖',
+        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
+      }, {
+        id: 2,
+        name: '电子数码',
+        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
+      }, {
+        id: 3,
+        name: '家用电器',
+        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
+      }, {
+        id: 4,
+        name: '电子数码',
+        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
+      }, {
+        id: 5,
+        name: '居家旅行',
+        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
+      }, {
+        id: 6,
+        name: '潮流短袖',
+        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
       }],
       productArr: [{
         secondId: 1,
@@ -181,7 +244,7 @@
         }, {
           id: 4,
           img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg',
-          name: '商品名4',
+          name: '电热水壶',
           spec: '透明色',
           price: 99
         }]
@@ -209,8 +272,11 @@
     }
 
     methods = {
-      onTapMenu(id) {
-        this.currentMenu = id
+      onTapMenu(id, name) {
+        this.currentMenu = {
+          id,
+          name
+        }
       },
       onTapDetail() {
         wepy.navigateTo({url: '/pages/productDetail'})

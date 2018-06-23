@@ -69,11 +69,57 @@ page{
     border-top: 15rpx solid $gray-light;
   }
 }
-.foot{
+.foot-wrap{
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  height: 100rpx;
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  background: $white;
+  color: $text-color;
+  .item-type1{
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 130rpx;
+    font-size: 24rpx;
+    .image{
+      width: 50rpx;
+      height: 50rpx;
+    }
+  }
+  .right{
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 10rpx;
+    width: 450rpx;
+    font-size: 30rpx;
+    color: $white;
+    .item-type2{
+      text-align: center;
+      width: 215rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      border-top-left-radius: 500rpx;
+      border-bottom-left-radius: 500rpx;
+      background: $theme;
+      opacity: 0.8;
+    }
+    .item-type3{
+      text-align: center;
+      width: 220rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      border-top-right-radius: 500rpx;
+      border-bottom-right-radius: 500rpx;
+      background: #FF3333;
+    }
+  }
 }
 </style>
 
@@ -93,14 +139,21 @@ page{
   view.image-min-wrap.flex(wx:if="{{tab.selectedId === 'showImg'}}")
       block(wx:for='{{goodsDetail.detailImgs}}' wx:key="item")
         image.image(src="{{item}}" mode="widthFix")
-  view(wx:else)
-    view.zan-panel(style="margin-top: 15rpx")
-      view.zan-cell(wx:for='{{goodsDetail.options}}' wx:key="item")
-        view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
-        view.zan-cell__bd {{item.name}}
-        view.zan-cell__ft {{item.content}}                
-  // shopCar(:syncShopCar.sync="shopCarP" wx:if="{{showShopCar}}")
-  view.zan-btn.zan-btn--large.zan-btn--danger.foot(@tap="onTapBuy") 立即购买
+  view.zan-panel(wx:else style="margin-top: 15rpx")
+    view.zan-cell(wx:for='{{goodsDetail.options}}' wx:key="item")
+      view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
+      view.zan-cell__bd {{item.name}}
+      view.zan-cell__ft {{item.content}}                
+  view.foot-wrap.flex
+    view.item-type1.flex
+      image.image(src="/pages/images/kefu.svg")
+      view 客服
+    view.item-type1.flex
+      image.image(src="/pages/images/shopcar.svg")
+      view 购物车      
+    view.right.flex
+      view.item-type2 加入购物车
+      view.item-type3 马上购买
 </template>
 
 <script>
