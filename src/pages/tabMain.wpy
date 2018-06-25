@@ -230,10 +230,10 @@
         view.content 这是一些介绍的话语    
   <!--猜你喜欢-->
   view.goods-advertisement
-    view.content 猜你喜欢 
+    view.content 店铺热卖 
     view.bar
   view.goods-card-wrap.flex
-    view.goods-card.flex(wx:for="{{gussYouLike}}" wx:key="index" @tap='onTapProduct')
+    view.goods-card.flex(wx:for="{{hotSale}}" wx:key="index" @tap='onTapProduct')
       image.image(src="{{item}}" lazy-load="{{true}}" mode="aspectFill")
       view.content 安全静音完美无可挑剔的示例商品                  
       view.sub 这是一段关于商品的描述                  
@@ -308,7 +308,7 @@
         'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags3.jpeg',
         'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags4.jpeg'
       ],
-      gussYouLike: [
+      hotSale: [
         'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg',
         'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger2.jpeg',
         'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger3.jpeg',

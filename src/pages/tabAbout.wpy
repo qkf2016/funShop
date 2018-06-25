@@ -119,10 +119,10 @@ page{
         image.image.flex(src="/pages/images/address.svg")
         view.content 收货地址
       view.zan-icon.zan-icon-arrow(style="color: #999")       
-    view.module.flex.flex-p-1(@tap="onTapShare")
+    view.module.flex.flex-p-1
       view.left.flex
-        image.image.flex(src="/pages/images/share.svg")
-        view.content 分享店铺
+        image.image.flex(src="/pages/images/vip.svg")
+        view.content 我的会员
       view.zan-icon.zan-icon-arrow(style="color: #999")        
   view.technology
     view 趣玩儿店欢迎您
@@ -162,6 +162,12 @@ page{
     }
 
     methods = {
+      onShareAppMessage: function (res) {
+        return {
+          title: '赞! 推荐一个有趣的店给您',
+          path: '/pages/tabAbout'
+        }
+      },
       onTapEdit() {
         wepy.navigateTo({url: './user/editUserInfo'})
       },

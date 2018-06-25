@@ -62,6 +62,7 @@ export default class extends wepy.app {
       'pages/tabShopCar',
       'pages/tabAbout',
 
+      'pages/mall/productList',
       'pages/mall/productDetail',
 
       'pages/user/myAddress',
