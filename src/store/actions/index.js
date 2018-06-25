@@ -1,3 +1,3 @@
 export * from './user'
-export * from './shoping'
+export * from './shopping'
 export * from './mall'

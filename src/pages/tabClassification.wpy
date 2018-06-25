@@ -84,7 +84,6 @@
 
 <script>
   import wepy from 'wepy'
-  import ShopCar from '@/components/shop-car'
   import { connect } from 'wepy-redux'
 
   @connect({
@@ -99,7 +98,7 @@
       disableScroll: true
     }
     components = {
-      shopCar: ShopCar
+
     }
     mixins = []
     data = {

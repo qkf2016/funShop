@@ -4,6 +4,8 @@
 @import '../../zanui/panel';
 @import '../../zanui/cell';
 @import '../../zanui/icon';
+@import '../../zanui/badge';
+
 page{
   padding-bottom: 120rpx;
 }
@@ -231,6 +233,8 @@ page{
       image.image(src="/pages/images/kefu.svg")
       view 客服
     view.item-type1.flex
+      view.demo__icon.zan-badge(wx:if="{{shopCar.length}}")
+        view.zan-badge__count(style="right: -20rpx;") {{shopCar.length}}
       image.image(src="/pages/images/shopcar.svg")
       view 购物车      
     view.right.flex
@@ -253,21 +257,23 @@ page{
         view.add-number-wrap.flex
           view 购买数量:
           zanStepper3(:stepper.sync="stepper3" :min="min3" :max="max3" componentId="stepper3" size="small")
-        view.zan-btn.zan-btn--danger.zan-btn--large(@tap="toggleBottomPopup('')") {{currentPopupFoot}}
+        view.zan-btn.zan-btn--danger.zan-btn--large(@tap="onTapAddShopCar") {{currentPopupFoot}}
 </template>
 
 <script>
   import wepy from 'wepy'
   import ZanTab from '@/components/zan-tab'
-  import ShopCar from '@/components/shop-car'
   import zanPopup from '@/components/zan-popup'
   import zanStepper from '@/components/zan-stepper'
   import { connect } from 'wepy-redux'
+  import { addProduct } from '@/store/actions'
 
   @connect({
     shopCar (state) {
-      return state.shopCar
+      return state.shopping.shopCar
     }
+  }, {
+    addProduct
   })
 
   export default class ProductDetail extends wepy.page {
@@ -279,7 +285,6 @@ page{
 
     components = {
       zanTab: ZanTab,
-      shopCar: ShopCar,
       zanPopup: zanPopup,
       zanStepper3: zanStepper
     }
@@ -366,29 +371,34 @@ page{
         this.currentPopupFoot = v
         this.$invoke('zanPopup', 'togglePopup')
       },
-      onTapBuy() {
-        let obj = {
-          id: 2,
-          name: '测试商品',
-          img: '/pages/images/box.svg',
-          price: 50
-        }
+      onTapAddShopCar() {
+        this.currentPopupFoot = ''
+        this.$invoke('zanPopup', 'togglePopup')
 
-        let idArr = this.$parent.globalData.shopCar.map(p => { return p.id })
-        const result = idArr.includes(obj.id)
-        if (!result) {
-          this.$parent.globalData.shopCar.push(obj)
-        } else {
-          for (let i of idArr) {
-            if (i === obj.id) {
-              const index = idArr.indexOf(i)
-              let num = this.$parent.globalData.shopCar[index].num
-              num++
-              this.$parent.globalData.shopCar[index].num = num
-            }
-          }
+        let obj = {
+          id: 1,
+          name: '测试商品',
+          spec: '这是一段商品的描述话语',
+          price: 59,
+          promotionsPrice: 49,
+          mainImgs: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg'
         }
-        this.showShopCar = !this.showShopCar
+        this.methods.addProduct(obj)
+        // let idArr = this.$parent.globalData.shopCar.map(p => { return p.id })
+        // const result = idArr.includes(obj.id)
+        // if (!result) {
+        //   this.$parent.globalData.shopCar.push(obj)
+        // } else {
+        //   for (let i of idArr) {
+        //     if (i === obj.id) {
+        //       const index = idArr.indexOf(i)
+        //       let num = this.$parent.globalData.shopCar[index].num
+        //       num++
+        //       this.$parent.globalData.shopCar[index].num = num
+        //     }
+        //   }
+        // }
+        // this.showShopCar = !this.showShopCar
       }
     }
   

@@ -1,11 +1,12 @@
 import { handleActions } from 'redux-actions'
-import { ADD_PRODUCT, REDUCE_PRODUCT } from '../types/shoping'
+import { ADD_PRODUCT, REDUCE_PRODUCT } from '../types/shopping'
 
 export default handleActions({
 
   // 商品加入购物车
   [ADD_PRODUCT] (state, action) {
-    state.wxInfo = action.payload
+    console.log(action.payload)
+    state.shopCar.push(action.payload)
     return {
       ...state,
       shopCar: state.shopCar
