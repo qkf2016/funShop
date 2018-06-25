@@ -61,14 +61,7 @@
           padding: 15rpx 0;
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
-          // 编译规则  表示这段代码不编译
-          /* autoprefixer: off */
-          // font-size: 32rpx;
-          // overflow: hidden;
-          // display: -webkit-box;
-          // -webkit-line-clamp: 2;
-          // -webkit-box-orient: vertical;                   
+          white-space: nowrap;            
         }
       }
     }
