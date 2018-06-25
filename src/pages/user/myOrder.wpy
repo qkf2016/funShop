@@ -7,68 +7,69 @@
   left: 0;
   right: 0;
   bottom: 0;
-}
-.tip-wrap{
-  position: relative;
-  width: 100%;
-  background: $white;
-  border-top: 6px solid $gray-light;
-  box-sizing: border-box;
-  padding: 0 20rpx;
-  .market-wrap{
-    border-bottom: 1px solid $gray-light;  
-    .left{
-      align-items: center;            
-      .market-name{
-        height: 80rpx;
-        line-height: 80rpx;
-        font-size: 32rpx;
-        font-weight: bold;
-        color: $gray-darker;
-        margin-left: 20rpx;
-      }
-    }  
-    .right{
-      height: 80rpx;            
-      justify-content: flex-end;
-      align-items: center;            
-    }    
-  }
-}
-.goods-msg{
-  position: relative;
-  box-sizing: border-box;
-  padding: 20rpx;
-  background: $white;   
-  width: 750rpx;    
-  height: 190rpx;  
-  .basic-msg{                              
-    border-bottom: 1px dashed $gray-light;
-    line-height: 46rpx;
-    height: 145rpx;
-    overflow: hidden;
-    .left{
-      width: 150rpx;
-      height: 150rpx;
-      margin-right: 15rpx;                   
+  .tip-wrap{
+    position: relative;
+    width: 100%;
+    background: $white;
+    border-top: 6px solid $gray-light;
+    box-sizing: border-box;
+    padding: 0 20rpx;
+    .market-wrap{
+      border-bottom: 1px solid $gray-light;  
+      .left{
+        align-items: center;            
+        .market-name{
+          height: 80rpx;
+          line-height: 80rpx;
+          font-size: 32rpx;
+          font-weight: bold;
+          color: $gray-darker;
+          margin-left: 20rpx;
+        }
+      }  
+      .right{
+        height: 80rpx;            
+        justify-content: flex-end;
+        align-items: center;            
+      }    
     }
-    .right{
-      font-size: 32rpx;  
-      width: 530rpx;     
-      flex-direction: column;                     
-      .item{
-        box-sizing: border-box;
-        padding: 15rpx 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        // 编译规则  表示这段代码不编译
-        /* autoprefixer: off */
-        // font-size: 32rpx;
-        // overflow: hidden;
-        // display: -webkit-box;
-        // -webkit-line-clamp: 2;
-        // -webkit-box-orient: vertical;                   
+  }
+  .goods-msg{
+    position: relative;
+    box-sizing: border-box;
+    padding: 20rpx;
+    background: $white;   
+    width: 750rpx;    
+    height: 190rpx;  
+    color: $text-color;
+    .basic-msg{                              
+      border-bottom: 1px dashed $gray-light;
+      line-height: 46rpx;
+      height: 145rpx;
+      overflow: hidden;
+      .left{
+        width: 150rpx;
+        height: 150rpx;
+        margin-right: 20rpx;                   
+      }
+      .right{
+        font-size: 32rpx;  
+        width: 530rpx;     
+        flex-direction: column;                     
+        .item{
+          box-sizing: border-box;
+          padding: 15rpx 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          // 编译规则  表示这段代码不编译
+          /* autoprefixer: off */
+          // font-size: 32rpx;
+          // overflow: hidden;
+          // display: -webkit-box;
+          // -webkit-line-clamp: 2;
+          // -webkit-box-orient: vertical;                   
+        }
       }
     }
   }
@@ -78,33 +79,23 @@
 <template lang='pug'>
   zanTab(:tab.sync="tab" componentId="tab")
   scroll-view.scroll-view(scroll-y)
-    view.tip-wrap
-      view.market-wrap.flex
-        view.flex.flex-p-6.left
-          view.zan-icon.zan-icon-points-mall(style="color: #999;") 
-          view.market-name 良明包装材料
-        view.flex.flex-p-1.right
-          view.zan-icon.zan-icon-arrow(style="color: #999;font-size: 28rpx;") 
-    view.goods-msg(@tap="onTapDeatil")
-      view.basic-msg.flex    
-        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")   
-        view.flex.right
-          sview.item 测试商品 x 5         
-          sview.item 商品描叙   
-
-    view.tip-wrap
-      view.market-wrap.flex
-        view.flex.flex-p-6.left
-          view.zan-icon.zan-icon-points-mall(style="color: #999;") 
-          view.market-name 良明包装材料
-        view.flex.flex-p-1.right
-          view.zan-icon.zan-icon-arrow(style="color: #999;font-size: 28rpx;") 
-    view.goods-msg(@tap="onTapDeatil")
-      view.basic-msg.flex    
-        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
-        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
-        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
-        image.left(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")                 
+    block(wx:for="{{orderArr}}" wx:key="id")
+      view.tip-wrap
+        view.market-wrap.flex
+          view.flex.flex-p-6.left
+            view.zan-icon.zan-icon-points-mall(style="color: #999;") 
+            view.market-name 感谢您在趣玩儿店购物
+          view.flex.flex-p-1.right
+            view.zan-icon.zan-icon-arrow(style="color: #999;font-size: 28rpx;") 
+      view.goods-msg.flex(@tap="onTapDeatil")
+        view.basic-msg.flex(wx:for="{{item.productArr}}" wx:key="id" wx:for-item="product" ) 
+          block(wx:if="{{item.productArr.length === 1}}")  
+            image.left(src="{{product.img}}" mode="aspectFit")   
+            view.flex.right
+              sview.item {{product.name}} x {{product.num}}      
+              sview.item {{product.spec}}
+          block(wx:else)
+            image.left(src="{{product.img}}" mode="aspectFit")                         
 </template>
 
 <script>
@@ -123,6 +114,8 @@
 
     data = {
       tab: {
+        selectedId: 1,
+        scroll: false,
         list: [
           {
             id: 1,
@@ -136,10 +129,45 @@
             id: 3,
             title: '已完成'
           }
-        ],
-        selectedId: 1,
-        scroll: false
-      }
+        ]
+      },
+      orderArr: [{
+        id: 1,
+        productArr: [{
+          id: 1,
+          name: '测试商品',
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
+          num: 2,
+          spec: '一段商品描述'
+        }]
+      }, {
+        id: 2,
+        productArr: [{
+          id: 1,
+          name: '测试商品',
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg',
+          num: 2,
+          spec: '一段商品描述'
+        }, {
+          id: 2,
+          name: '测试商品',
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg',
+          num: 2,
+          spec: '一段商品描述'
+        }, {
+          id: 3,
+          name: '测试商品',
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
+          num: 3,
+          spec: '一段商品描述'
+        }, {
+          id: 4,
+          name: '测试商品',
+          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods5.jpeg',
+          num: 3,
+          spec: '一段商品描述'
+        }]
+      }]
     }
 
     computed = {

@@ -124,7 +124,7 @@ page{
 .popup-wrap{
   position: relative;
   width: 750rpx;
-  height: 500rpx;
+  height: 600rpx;
   background: $white;
   .top-wrap{
     box-sizing: border-box;
@@ -165,6 +165,25 @@ page{
         line-height: 50rpx;
         color: $gray-darker;
       }
+    }
+  }
+  .middle-wrap{
+    position: absolute;
+    bottom: 200rpx;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 30rpx;
+    .item{
+      display: inline-block;
+      font-size: 28rpx;
+      box-sizing: border-box;
+      padding: 6rpx 20rpx;
+      background: $background-color;
+      border: 1px solid $active-color;
+      border-radius: 20rpx;
+      margin-bottom: 30rpx;
+      margin-right: 30rpx;
     }
   }
   .bottom-wrap{
@@ -214,9 +233,9 @@ page{
     view.item-type1.flex
       image.image(src="/pages/images/shopcar.svg")
       view 购物车      
-    view.right.flex(@tap="toggleBottomPopup")
-      view.item-type2 加入购物车
-      view.item-type3 马上购买
+    view.right.flex
+      view.item-type2(@tap="toggleBottomPopup('加入购物车')") 加入购物车
+      view.item-type3(@tap="toggleBottomPopup('马上购买')") 马上购买
   zanPopup(direction="bottom")
     view.popup-wrap(slot="popupContent")
       view.top-wrap.flex
@@ -226,12 +245,15 @@ page{
             image.rmb(src="/pages/images/rmb.svg")  
             view.price {{goodsDetail.promotionsPrice}}   
           view.choose-wrap 已选择: {{goodsDetail.name}}
-      view.middle-wrap 中部
+      scroll-view.middle-wrap(scroll-y style="height: 200rpx;")
+        view.item 珍珠白
+        view.item 幻夜黑
+        view.item 激情红
       view.bottom-wrap
         view.add-number-wrap.flex
           view 购买数量:
           zanStepper3(:stepper.sync="stepper3" :min="min3" :max="max3" componentId="stepper3" size="small")
-        view.zan-btn.zan-btn--danger.zan-btn--large(@tap="toggleBottomPopup") 加入购物车
+        view.zan-btn.zan-btn--danger.zan-btn--large(@tap="toggleBottomPopup('')") {{currentPopupFoot}}
 </template>
 
 <script>
@@ -250,7 +272,7 @@ page{
 
   export default class ProductDetail extends wepy.page {
     config = {
-      navigationBarTitleText: '超市汇'
+      navigationBarTitleText: '趣玩儿店'
     }
 
     mixins = []
@@ -278,9 +300,10 @@ page{
         selectedId: 'showImg',
         scroll: false
       },
-      stepper3: 1,
-      min3: 1,
+      stepper3: 0,
+      min3: 0,
       max3: 999,
+      currentPopupFoot: '',
       goodsDetail: {
         name: '测试商品',
         spec: '这是一段商品的描述话语',
@@ -339,7 +362,8 @@ page{
     }
 
     methods = {
-      toggleBottomPopup() {
+      toggleBottomPopup(v) {
+        this.currentPopupFoot = v
         this.$invoke('zanPopup', 'togglePopup')
       },
       onTapBuy() {
@@ -369,7 +393,7 @@ page{
     }
   
     onLoad() {
-      this.$invoke('zanPopup', 'togglePopup')
+
     }
   }
 </script>

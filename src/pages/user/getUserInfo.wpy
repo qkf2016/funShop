@@ -56,7 +56,11 @@
     }
     computed = {
       userInfo() {
-        if (this.store) return this.store.user.wxInfo
+        if (this.store) {
+          return this.store.user.wxInfo
+        } else {
+          return null
+        }
       }
     }
     watch = {
