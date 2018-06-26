@@ -232,7 +232,7 @@ page{
     view.item-type1.flex
       image.image(src="/pages/images/kefu.svg")
       view 客服
-    view.item-type1.flex
+    view.item-type1.flex(@tap="onTapShopCar")
       view.demo__icon.zan-badge(wx:if="{{shopCar.length}}")
         view.zan-badge__count(style="right: -20rpx;") {{shopCar.length}}
       image.image(src="/pages/images/shopcar.svg")
@@ -305,8 +305,8 @@ page{
         selectedId: 'showImg',
         scroll: false
       },
-      stepper3: 0,
-      min3: 0,
+      stepper3: 1,
+      min3: 1,
       max3: 999,
       currentPopupFoot: '',
       goodsDetail: {
@@ -376,29 +376,18 @@ page{
         this.$invoke('zanPopup', 'togglePopup')
 
         let obj = {
-          id: 1,
+          id: Math.floor(Math.random() * 10),
           name: '测试商品',
           spec: '这是一段商品的描述话语',
           price: 59,
           promotionsPrice: 49,
+          num: this.stepper3,
           mainImgs: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg'
         }
         this.methods.addProduct(obj)
-        // let idArr = this.$parent.globalData.shopCar.map(p => { return p.id })
-        // const result = idArr.includes(obj.id)
-        // if (!result) {
-        //   this.$parent.globalData.shopCar.push(obj)
-        // } else {
-        //   for (let i of idArr) {
-        //     if (i === obj.id) {
-        //       const index = idArr.indexOf(i)
-        //       let num = this.$parent.globalData.shopCar[index].num
-        //       num++
-        //       this.$parent.globalData.shopCar[index].num = num
-        //     }
-        //   }
-        // }
-        // this.showShopCar = !this.showShopCar
+      },
+      onTapShopCar() {
+        this.$switch('/pages/tabShopCar')
       }
     }
   
