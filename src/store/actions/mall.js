@@ -1,7 +1,14 @@
 import { createAction } from 'redux-actions'
 // import wepy from 'wepy'
 import 'wepy-async-function'
-import { GET_MALLINFO, GET_CLASSONE, GET_NEWPRODUCT, GET_PRODUCTACTIVITY, GET_HOTSALEPRODUCT } from '../types/mall'
+import { 
+  GET_MALLINFO, 
+  GET_CLASSONE, 
+  GET_CLASSTWO, 
+  GET_NEWPRODUCT, 
+  GET_PRODUCTACTIVITY, 
+  GET_HOTSALEPRODUCT 
+} from '../types/mall'
 
 // 获取店铺信息
 export const getMallInfo = createAction(GET_MALLINFO, () => {
@@ -26,44 +33,79 @@ export const getClassOne = createAction(GET_CLASSONE, () => {
   const classOne = [{
     id: 1,
     image: './images/lipin.svg',
-    content: '精美礼品'
+    name: '精美礼品'
   }, {
     id: 2,
     image: './images/meizhuang.svg',
-    content: '日系美妆'
+    name: '日系美妆'
   }, {
     id: 3,
     image: './images/yifu.svg',
-    content: '人靠衣装'
+    name: '人靠衣装'
   }, {
     id: 4,
     image: './images/show-desk.svg',
-    content: '专柜代购'
+    name: '专柜代购'
   }, {
     id: 5,
     image: './images/hufupin.svg',
-    content: '面部护理'
+    name: '面部护理'
   }, {
     id: 6,
     image: './images/watch.svg',
-    content: '时尚手表'
+    name: '时尚手表'
   }, {
     id: 7,
     image: './images/bage.svg',
-    content: '真品包包'
+    name: '真品包包'
   }, {
     id: 8,
     image: './images/tag.svg',
-    content: '国际大牌'
+    name: '国际大牌'
   }, {
     id: 9,
     image: './images/drink.svg',
-    content: '奇妙饮品'
+    name: '奇妙饮品'
   }, {
     image: './images/guide.svg',
-    content: '查看更多'
+    name: '查看更多'
   }]
   return classOne
+})
+
+export const getClassTwo = createAction(GET_CLASSTWO, () => {
+  const classTwo = [{
+    classOneId: 1,
+    id: 1,
+    name: '潮流短袖',
+    image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
+  }, {
+    classOneId: 1,
+    id: 2,
+    name: '电子数码',
+    image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
+  }, {
+    classOneId: 1,
+    id: 3,
+    name: '家用电器',
+    image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
+  }, {
+    classOneId: 1,  
+    id: 4,
+    name: '电子数码',
+    image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
+  }, {
+    classOneId: 1,
+    id: 5,
+    name: '居家旅行',
+    image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
+  }, {
+    classOneId: 1,
+    id: 6,
+    name: '潮流短袖',
+    image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
+  }]
+  return classTwo
 })
 
 // 获取店铺新品

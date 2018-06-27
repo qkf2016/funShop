@@ -71,25 +71,37 @@
 <template lang='pug'>
   <!--左侧一级分类-->
   scroll-view.content-left-wrap(scroll-y)
-    view.item(wx:for="{{menu}}" wx:key="id")
-      view.name(class="{{item.id === currentMenu.id?'item-checked':''}}" @tap='onTapMenu({{item.id}}, {{item.name}})') {{item.name}}
+    view.item(wx:for="{{_store_classOne}}" wx:key="id")
+      view.name(
+        class="{{item.id === currentMenu.id ? 'item-checked' : ''}}" 
+        @tap='onTapMenu({{item.id}}, {{item.name}})'
+      ) {{item.name}}
   <!--右侧商品展示-->
   scroll-view.content-right-wrap(scroll-y)
     view.head-wrap {{currentMenu.name}}
     view.class-wrap.flex(@tap="onTapClassTwo")
-      view.item-wrap.flex(wx:for="{{classTwo}}" wx:key="item")
-        image.image(src="{{item.img}}" mode="aspectFit")
+      view.item-wrap.flex(wx:for="{{$store_classTwo}}" wx:key="item")
+        image.image(src="{{item.image}}" mode="aspectFit")
         view.content {{item.name}}
 </template>
 
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
+  import { getClassTwo } from '@/store/actions'
 
   @connect({
-    shopCar (state) {
+    $store_classOne (state) {
+      return state.mall.classOne
+    },
+    $store_classTwo (state) {
+      return state.mall.classTwo
+    },
+    $shopCar (state) {
       return state.shopCar
     }
+  }, {
+    getClassTwo
   })
 
   export default class Classification extends wepy.page {
@@ -102,67 +114,13 @@
     }
     mixins = []
     data = {
-      currentMenu: {
-        id: 1,
-        name: '粮油副食'
-      },
-      menu: [{
-        id: 1,
-        name: '粮油副食'
-      }, {
-        id: 2,
-        name: '个护清洁'
-      }, {
-        id: 3,
-        name: '家电用器'
-      }, {
-        id: 4,
-        name: '食品生鲜'
-      }, {
-        id: 5,
-        name: '酒水饮料'
-      }, {
-        id: 6,
-        name: '二手商品'
-      }, {
-        id: 7,
-        name: '萌宠生活'
-      }, {
-        id: 8,
-        name: '户外运动'
-      }, {
-        id: 9,
-        name: '玩具乐器'
-      }],
-      classTwo: [{
-        id: 1,
-        name: '潮流短袖',
-        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
-      }, {
-        id: 2,
-        name: '电子数码',
-        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
-      }, {
-        id: 3,
-        name: '家用电器',
-        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
-      }, {
-        id: 4,
-        name: '电子数码',
-        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
-      }, {
-        id: 5,
-        name: '居家旅行',
-        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
-      }, {
-        id: 6,
-        name: '潮流短袖',
-        img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
-      }]
+      currentMenu: {}
     }
 
     computed = {
-
+      _store_classOne() {
+        if (this.$store_classOne) return this.$store_classOne.slice(0, 9)
+      }
     }
 
     methods = {
@@ -182,7 +140,8 @@
     }
 
     onLoad() {
-
+      this.currentMenu = this.$store_classOne[0]
+      this.methods.getClassTwo()
     }
   }
 </script>

@@ -1,5 +1,12 @@
 import { handleActions } from 'redux-actions'
-import { GET_MALLINFO, GET_CLASSONE, GET_NEWPRODUCT, GET_PRODUCTACTIVITY, GET_HOTSALEPRODUCT } from '../types/mall'
+import { 
+  GET_MALLINFO, 
+  GET_CLASSONE, 
+  GET_CLASSTWO, 
+  GET_NEWPRODUCT, 
+  GET_PRODUCTACTIVITY, 
+  GET_HOTSALEPRODUCT 
+} from '../types/mall'
 
 export default handleActions({
 
@@ -18,6 +25,15 @@ export default handleActions({
     return {
       ...state,
       classOne: state.classOne
+    }
+  },
+
+  // 获取店铺二级分类
+  [GET_CLASSTWO] (state, action) {
+    state.classTwo = action.payload
+    return {
+      ...state,
+      classTwo: state.classTwo
     }
   },
 
@@ -51,6 +67,7 @@ export default handleActions({
 }, {
   mallInfo: null,
   classOne: [],
+  classTwo: [],
   newProduct: [],
   productActivity: [],
   hotSaleProduct: []

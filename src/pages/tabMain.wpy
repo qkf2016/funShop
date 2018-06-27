@@ -196,14 +196,20 @@
     view.input 请输入商品名称
   <!--店铺宣传-->
   view.swiper-wrap
-      swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
-          swiper-item(wx:for="{{$store_mall.mallInfo.activityImages}}" wx:key="*item")
-              image.image(src="{{item}}" mode="aspectFit")
+      swiper.swiper(
+        autoplay
+        indicator-active-color="#fff" 
+        interval="3000" 
+        duration="1000" 
+        circular 
+        indicator-dots)
+        swiper-item(wx:for="{{$store_mall.mallInfo.activityImages}}" wx:key="*item")
+          image.image(src="{{item}}" mode="aspectFit")
   <!--商品分类-->
   view.shelves-class.flex
       view.type-wrap(wx:for="{{$store_mall.classOne}}" wx:key="id" @tap='onTapMenue')
           image.image(src="{{item.image}}" mode="aspectFit")
-          view.content {{item.content}}
+          view.content {{item.name}}
   <!--店铺通知-->
   view.zan-panel(style='margin-top: 0')
     zanNoticebar(:text.sync="noticeSync" componentId="movable")
@@ -245,7 +251,13 @@
   import zanNoticebar from '@/components/zan-noticebar'
   import zanToast from '@/components/zan-toast'
   import { connect } from 'wepy-redux'
-  import { getMallInfo, getClassOne, getNewProduct, getProductActivity, getHotSaleProduct } from '@/store/actions'
+  import {
+    getMallInfo,
+    getClassOne,
+    getNewProduct,
+    getProductActivity,
+    getHotSaleProduct
+  } from '@/store/actions'
 
   @connect({
     $store_mall (state) {
