@@ -23,7 +23,10 @@ import wepy from 'wepy'
 export default class zanNoticebar extends wepy.component {
   props = {
     componentId: String,
-    text: String
+    text: {
+      type: String,
+      default: '欢迎光临'
+    }
   }
   data = {
     animationData: {},

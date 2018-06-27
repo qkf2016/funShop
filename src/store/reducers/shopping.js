@@ -5,7 +5,6 @@ export default handleActions({
 
   // 商品加入购物车
   [ADD_PRODUCT] (state, action) {
-    console.log(action.payload)
     let productObj = action.payload
     let idArr = state.shopCar.map(p => { return p.id })
     const isInclude = idArr.includes(productObj.id)

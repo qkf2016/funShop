@@ -32,12 +32,12 @@
 // 店铺宣传
 .swiper-wrap{
   .swiper{
-      width: 100%;
-      height: 280rpx;
+    width: 100%;
+    height: 280rpx;
   }
   .image{
-      width: 750rpx;
-      height: 280rpx;
+    width: 750rpx;
+    height: 280rpx;
   }
 }
 // 商品分类
@@ -54,17 +54,17 @@
       width: 142rpx;
       height: 142rpx;
       .image{
-          margin-left: 50%;
-          transform: translate(-50%,0);
-          width: 90rpx;
-          height: 90rpx;
+        margin-left: 50%;
+        transform: translate(-50%,0);
+        width: 90rpx;
+        height: 90rpx;
       }
       .content{
-          margin-top: 6rpx;
-          height: 40rpx;
-          overflow: hidden;
-          text-align: center;
-          font-size: 24rpx;
+        margin-top: 6rpx;
+        height: 40rpx;
+        overflow: hidden;
+        text-align: center;
+        font-size: 24rpx;
       }
   }
 }
@@ -106,17 +106,17 @@
         justify-content: center;
         align-items: center;
         .image{
-            width: 150rpx;
-            height: 150rpx;
+          width: 150rpx;
+          height: 150rpx;
         }
         .name, .price{
-            width: 200rpx;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            text-align: center;
-            margin-top: 15rpx;
-            font-size: 28rpx;
+          width: 200rpx;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
+          margin-top: 15rpx;
+          font-size: 28rpx;
         }
       }
     }
@@ -149,7 +149,7 @@
     }
   }
 } 
-// 猜你喜欢
+// 店铺热卖
 .goods-card-wrap{
   width: 750rpx;
   flex-wrap: wrap;
@@ -197,54 +197,67 @@
   <!--店铺宣传-->
   view.swiper-wrap
       swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
-          swiper-item(wx:for="{{activityImages}}" wx:key="id")
+          swiper-item(wx:for="{{$store_mall.mallInfo.activityImages}}" wx:key="*item")
               image.image(src="{{item}}" mode="aspectFit")
   <!--商品分类-->
   view.shelves-class.flex
-      view.type-wrap(wx:for="{{firstClass}}" wx:key="id" @tap='onTapMenue')
+      view.type-wrap(wx:for="{{$store_mall.classOne}}" wx:key="id" @tap='onTapMenue')
           image.image(src="{{item.image}}" mode="aspectFit")
           view.content {{item.content}}
   <!--店铺通知-->
   view.zan-panel(style='margin-top: 0')
-    zanNoticebar(:text="longText" componentId="movable")
+    zanNoticebar(:text.sync="noticeSync" componentId="movable")
   <!--新品首发-->
   view.goods-advertisement
     view.content 新品首发 
     view.bar
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-      view.goods-detail-wrap(wx:for="{{newGoods}}" wx:key="index")
+      view.goods-detail-wrap(wx:for="{{$store_mall.newProduct}}" wx:key="id")
           view.zan-icon.zan-icon-new-arrival.good-tag    
           view.goods-wrap.flex(@tap='onTapProduct')
-            image.image(src="{{item}}" lazy-load="{{true}}" mode='aspectFit')
-            view.name 示例商品
-            view.price ¥50
+            image.image(src="{{item.image}}" lazy-load="{{true}}" mode='aspectFit')
+            view.name {{item.name}}
+            view.price ¥{{item.price}}
   <!--活动推荐-->
   view.goods-advertisement
-    view.content 活动推荐 
+    view.content 活动推荐
     view.bar
   scroll-view.scroll-view(scroll-x="{{true}}" style="width: 100%;")
-    block(wx:for="{{tagsImage}}" wx:key="index")
+    block(wx:for="{{$store_mall.productActivity}}" wx:key="index")
       view.show-wrap.flex
-        image.image(src="{{item}}" lazy-load="true" mode="aspectFill")
-        view.content 示例商品
-        view.content 这是一些介绍的话语    
-  <!--猜你喜欢-->
+        image.image(src="{{item.image}}" lazy-load="true" mode="aspectFill")
+        view.content {{item.name}}
+        view.content {{item.spec}}
+  <!--店铺热卖-->
   view.goods-advertisement
     view.content 店铺热卖 
     view.bar
   view.goods-card-wrap.flex
-    view.goods-card.flex(wx:for="{{hotSale}}" wx:key="index" @tap='onTapProduct')
-      image.image(src="{{item}}" lazy-load="{{true}}" mode="aspectFill")
-      view.content 安全静音完美无可挑剔的示例商品                  
-      view.sub 这是一段关于商品的描述                  
-      view.content ¥49                  
+    view.goods-card.flex(wx:for="{{$store_mall.hotSaleProduct}}" wx:key="index" @tap='onTapProduct')
+      image.image(src="{{item.image}}" lazy-load="{{true}}" mode="aspectFill")
+      view.content {{item.name}}                  
+      view.sub {{item.spec}}                  
+      view.content ¥{{item.price}}               
 </template>
 
 <script>
   import wepy from 'wepy'
   import zanNoticebar from '@/components/zan-noticebar'
   import zanToast from '@/components/zan-toast'
-  import testMixin from '../mixins/test'
+  import { connect } from 'wepy-redux'
+  import { getMallInfo, getClassOne, getNewProduct, getProductActivity, getHotSaleProduct } from '@/store/actions'
+
+  @connect({
+    $store_mall (state) {
+      return state.mall
+    }
+  }, {
+    getMallInfo,
+    getClassOne,
+    getNewProduct,
+    getProductActivity,
+    getHotSaleProduct
+  })
 
   export default class Main extends wepy.page {
     config = {
@@ -255,65 +268,10 @@
       zanToast
     }
 
-    mixins = [testMixin]
+    mixins = []
 
     data = {
-      activityImages: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/haibao1.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/haibao2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/haibao3.jpeg'
-      ],
-      firstClass: [{
-        image: './images/lipin.svg',
-        content: '精美礼品'
-      }, {
-        image: './images/meizhuang.svg',
-        content: '日系美妆'
-      }, {
-        image: './images/yifu.svg',
-        content: '人靠衣装'
-      }, {
-        image: './images/show-desk.svg',
-        content: '专柜代购'
-      }, {
-        image: './images/hufupin.svg',
-        content: '面部护理'
-      }, {
-        image: './images/watch.svg',
-        content: '时尚手表'
-      }, {
-        image: './images/bage.svg',
-        content: '真品包包'
-      }, {
-        image: './images/tag.svg',
-        content: '国际大牌'
-      }, {
-        image: './images/drink.svg',
-        content: '奇妙饮品'
-      }, {
-        image: './images/guide.svg',
-        content: '查看更多'
-      }],
-      longText: '开张笑纳城乡客，开业喜迎远近宾. 趣玩儿店欢迎您',
-      newGoods: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods5.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods6.jpeg'
-      ],
-      tagsImage: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags1.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags3.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/tags4.jpeg'
-      ],
-      hotSale: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger3.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg'
-      ]
+      noticeSync: '欢迎光临'  // 不给默认值调试器会出一个警告
     }
 
     computed = {
@@ -338,6 +296,12 @@
 
     onLoad() {
       this.$invoke('zanNoticebar', 'initZanNoticeBarScroll')
+      const {payload: {notice}} = this.methods.getMallInfo()
+      this.noticeSync = notice
+      this.methods.getClassOne()
+      this.methods.getNewProduct()
+      this.methods.getHotSaleProduct()
+      this.methods.getProductActivity()
     }
   }
 </script>

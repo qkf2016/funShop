@@ -1,1 +1,5 @@
 export const GET_MALLINFO = 'getMallInfo'
+export const GET_CLASSONE = 'getClassOne'
+export const GET_NEWPRODUCT = 'getNewProduct'
+export const GET_PRODUCTACTIVITY = 'getProductActivity'
+export const GET_HOTSALEPRODUCT = 'getHotSaleProduct'
