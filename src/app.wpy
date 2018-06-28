@@ -11,37 +11,37 @@ page{
   box-sizing: border-box;
 }
 .__blank-section{
-    margin-top: 200rpx;
-    .image{
-        margin-left: 50%;
-        transform: translate(-50%,0);
-        width: 200rpx;
-        height: 200rpx;
-    }
-    .text{
-        text-align: center;
-        font-size: 32rpx;
-        color: #8a8a8a;
-    }
+  margin-top: 200rpx;
+  .image{
+    margin-left: 50%;
+    transform: translate(-50%,0);
+    width: 200rpx;
+    height: 200rpx;
+  }
+  .text{
+    text-align: center;
+    font-size: 32rpx;
+    color: #8a8a8a;
+  }
 }
 .flex{
-    display:flex;
+  display:flex;
 	align-items:flex-start;
-	
-    &.flex-center{align-items:center;}   
-    &.flex-end{align-items:flex-end;}
-    &.flex-wrap{flex-wrap:wrap;}
-    &.flex-vertical{flex-direction: column;}
-    &.flex-full {
-        align-items:stretch;
-        align-content:stretch;
-    }
 
-    @each $number in 0,1,2,3,4,5,6 {
-        .flex-p-#{$number} {flex-grow: $number;}
-        .flex-p-#{$number} {flex-shrink: $number;}
-        .flex-p-#{$number} {flex-basis:0;}
-    }
+  &.flex-center{align-items:center;}   
+  &.flex-end{align-items:flex-end;}
+  &.flex-wrap{flex-wrap:wrap;}
+  &.flex-vertical{flex-direction: column;}
+  &.flex-full {
+    align-items:stretch;
+    align-content:stretch;
+  }
+
+  @each $number in 0,1,2,3,4,5,6 {
+    .flex-p-#{$number} {flex-grow: $number;}
+    .flex-p-#{$number} {flex-shrink: $number;}
+    .flex-p-#{$number} {flex-basis:0;}
+  }
 }
 </style>
 
@@ -115,12 +115,7 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    shopCar: [{
-      id: 1,
-      name: '测试商品',
-      img: '/pages/images/box.svg',
-      price: 50
-    }]
+
   }
 }
 </script>

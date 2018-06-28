@@ -164,7 +164,7 @@ page{
     methods = {
       onShareAppMessage: function (res) {
         return {
-          title: '赞! 推荐一个有趣的店给您',
+          title: '嗨～ 推荐一个有趣的店给您',
           path: '/pages/tabAbout'
         }
       },
@@ -188,6 +188,7 @@ page{
 
     onLoad() {
       this.methods.getMallInfo()
+      // todo 判断是否有userInfo再做跳转
       this.$navigate('/pages/user/getUserInfo')
     }
   }

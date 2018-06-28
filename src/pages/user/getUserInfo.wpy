@@ -44,7 +44,7 @@
   import { getUserInfo } from '@/store/actions'
 
   @connect({
-    store (state) {
+    $store (state) {
       return state
     }
   }, {
@@ -56,8 +56,8 @@
     }
     computed = {
       userInfo() {
-        if (this.store) {
-          return this.store.user.wxInfo
+        if (this.$store) {
+          return this.$store.user.wxInfo
         } else {
           return null
         }

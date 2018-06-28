@@ -2,7 +2,12 @@ import { createAction } from 'redux-actions'
 import wepy from 'wepy'
 import 'wepy-async-function'
 
-import { GET_USERINFO, EDIT_USERINFO, ADD_ADDRESS } from '../types/user'
+import { 
+  GET_USERINFO, 
+  EDIT_USERINFO, 
+  ADD_ADDRESS,
+  DELETE_ADDRESS
+} from '../types/user'
 
 // 获取用户信息
 export const getUserInfo = createAction(GET_USERINFO, async function () {
@@ -17,5 +22,10 @@ export const editUserInfo = createAction(EDIT_USERINFO, (params) => {
 
 // 新增收货地址
 export const addAddress = createAction(ADD_ADDRESS, (params) => {
+  return params
+})
+
+// 删除收货地址
+export const deleteAddress = createAction(DELETE_ADDRESS, (params) => {
   return params
 })

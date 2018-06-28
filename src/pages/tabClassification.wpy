@@ -69,14 +69,14 @@
 </style>
 
 <template lang='pug'>
-  <!--左侧一级分类-->
+  <!-- 一级分类 -->
   scroll-view.content-left-wrap(scroll-y)
     view.item(wx:for="{{_store_classOne}}" wx:key="id")
       view.name(
         class="{{item.id === currentMenu.id ? 'item-checked' : ''}}" 
         @tap='onTapMenu({{item.id}}, {{item.name}})'
       ) {{item.name}}
-  <!--右侧商品展示-->
+  <!-- 二级分类 -->
   scroll-view.content-right-wrap(scroll-y)
     view.head-wrap {{currentMenu.name}}
     view.class-wrap.flex(@tap="onTapClassTwo")
@@ -125,10 +125,7 @@
 
     methods = {
       onTapMenu(id, name) {
-        this.currentMenu = {
-          id,
-          name
-        }
+        this.currentMenu = {id, name}
       },
       onTapClassTwo() {
         wepy.navigateTo({url: '/pages/mall/productList'})

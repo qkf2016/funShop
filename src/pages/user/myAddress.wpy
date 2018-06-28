@@ -78,8 +78,8 @@
 
 <template lang='pug'>
   toast
-  block(wx:if="{{addressArr.length}}")
-    view.delivery-info-wrap(wx:for="{{addressArr}}" wx:key="item")
+  block(wx:if="{{$addressArr.length}}")
+    view.delivery-info-wrap(wx:for="{{$addressArr}}" wx:key="item")
       view.info-wrap
         view.name {{item.userName}}  {{item.telNumber}}
         view.delivery {{item.address}}
@@ -91,7 +91,7 @@
           //- view.edit-wrap.flex(data-id="{{item.id}}" bindtap="editDeliveryInfo")
               image.edit(src="./images/edit.svg")
               view 编辑
-          view.remove-wrap.flex(@tap.stop="onTapDelete({{item.id}}, {{item.defaultAddress}})")
+          view.remove-wrap.flex(@tap.stop="onTapDelete({{item.id}})")
               view.remove.zan-icon.zan-icon-delete
               view 删除
   block(wx:else)
@@ -107,14 +107,18 @@
   import Toast from '@/components/zan-toast'
   import testMixin from '@/mixins/test'
   import { connect } from 'wepy-redux'
-  import { addAddress } from '@/store/actions'
+  import {
+    addAddress,
+    deleteAddress
+  } from '@/store/actions'
 
   @connect({
-    addressArr (state) {
+    $addressArr (state) {
       return state.user.addressArr
     }
   }, {
-    addAddress
+    addAddress,
+    deleteAddress
   })
 
   export default class MyAddress extends wepy.page {
@@ -136,27 +140,23 @@
     }
 
     methods = {
-      async onTapDelete(id, df) {
-        if (df) {
-          this.$invoke('toast', 'showZanToast', { title: '默认地址不可删除', timeout: 2000 })
-          return
-        }
+      async onTapDelete(id) {
         const {confirm} = await wepy.showModal({title: '提示', content: '确定要删除吗？', confirmColor: '#f94950'})
         if (confirm) {
-          // await this.$$delateUserDelivery(id)
-          // await this.$$getUserDeliveryInfo(this.userId, this.marketId)
-          // this.$apply()
+          this.methods.deleteAddress(id)
+          this.$apply()
         }
       },
       async onTapAddAddress() {
         const {userName, telNumber, cityName, countyName, detailInfo, postalCode} = await wepy.chooseAddress()
         let addressInfo = {
+          id: '1',
           userName,
           telNumber,
           address: cityName + countyName + detailInfo,
           postalCode: postalCode || ''
         }
-        await this.methods.addAddress(addressInfo)
+        const result = await this.methods.addAddress(addressInfo)
         this.$apply()
       }
     }
