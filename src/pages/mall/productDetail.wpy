@@ -209,22 +209,28 @@ page{
 
 <template lang="pug">
   view.swiper-wrap
-    swiper.swiper(autoplay indicator-active-color="#fff" interval="3000" duration="1000" circular indicator-dots)
-      swiper-item(wx:for="{{goodsDetail.mainImgs}}" wx:key="id")
+    swiper.swiper(
+      autoplay 
+      indicator-active-color="#fff" 
+      interval="3000" 
+      duration="1000" 
+      circular 
+      indicator-dots)
+      swiper-item(wx:for="{{$productDetail.mainImgs}}" wx:key="id")
         image.image(src="{{item}}" mode="aspectFill")
   view.goods-info 
-    view.name {{goodsDetail.name}}
-    view.desc {{goodsDetail.spec}}
+    view.name {{$productDetail.name}}
+    view.desc {{$productDetail.spec}}
     view.good-price-wrap
       image.rmb(src="/pages/images/rmb.svg")        
-      view.good-promotionsPrice {{goodsDetail.promotionsPrice}}
-      // view.good-price / ¥{{goodsDetail.promotionsPrice}}
+      view.good-promotionsPrice {{$productDetail.promotionsPrice}}
+      // view.good-price / ¥{{$productDetail.promotionsPrice}}
   zanTab(:tab.sync="tab" componentId="tab")
   view.image-min-wrap.flex(wx:if="{{tab.selectedId === 'showImg'}}")
-      block(wx:for='{{goodsDetail.detailImgs}}' wx:key="item")
+      block(wx:for='{{$productDetail.detailImgs}}' wx:key="item")
         image.image(src="{{item}}" mode="widthFix")
   view.zan-panel(wx:else style="margin-top: 15rpx")
-    view.zan-cell(wx:for='{{goodsDetail.options}}' wx:key="item")
+    view.zan-cell(wx:for='{{$productDetail.options}}' wx:key="item")
       view.zan-cell__icon.zan-icon.zan-icon-setting(style="color:#999;")
       view.zan-cell__bd {{item.name}}
       view.zan-cell__ft {{item.content}}                
@@ -233,8 +239,8 @@ page{
       image.image(src="/pages/images/kefu.svg")
       view 客服
     view.item-type1.flex(@tap="onTapShopCar")
-      view.demo__icon.zan-badge(wx:if="{{shopCar.length}}")
-        view.zan-badge__count(style="right: -20rpx;") {{shopCar.length}}
+      view.demo__icon.zan-badge(wx:if="{{$shopCar.length}}")
+        view.zan-badge__count(style="right: -20rpx;") {{$shopCar.length}}
       image.image(src="/pages/images/shopcar.svg")
       view 购物车      
     view.right.flex
@@ -247,8 +253,8 @@ page{
         view.detail-wrap.flex
           view.price-wrap.flex
             image.rmb(src="/pages/images/rmb.svg")  
-            view.price {{goodsDetail.promotionsPrice}}   
-          view.choose-wrap 已选择: {{goodsDetail.name}}
+            view.price {{$productDetail.promotionsPrice}}   
+          view.choose-wrap 已选择: {{$productDetail.name}}
       scroll-view.middle-wrap(scroll-y style="height: 200rpx;")
         view.item 珍珠白
         view.item 幻夜黑
@@ -266,14 +272,21 @@ page{
   import zanPopup from '@/components/zan-popup'
   import zanStepper from '@/components/zan-stepper'
   import { connect } from 'wepy-redux'
-  import { addProduct } from '@/store/actions'
+  import {
+    addProduct,
+    getProductDetail
+  } from '@/store/actions'
 
   @connect({
-    shopCar (state) {
+    $shopCar (state) {
       return state.shopping.shopCar
+    },
+    $productDetail(state) {
+      return state.mall.productDetail
     }
   }, {
-    addProduct
+    addProduct,
+    getProductDetail
   })
 
   export default class ProductDetail extends wepy.page {
@@ -292,57 +305,20 @@ page{
     data = {
       showShopCar: false,
       tab: {
-        list: [
-          {
-            id: 'showImg',
-            title: '商品详细'
-          },
-          {
-            id: 'params',
-            title: '商品规格'
-          }
-        ],
+        list: [{
+          id: 'showImg',
+          title: '商品详细'
+        }, {
+          id: 'params',
+          title: '商品规格'
+        }],
         selectedId: 'showImg',
         scroll: false
       },
       stepper3: 1,
       min3: 1,
       max3: 999,
-      currentPopupFoot: '',
-      goodsDetail: {
-        name: '测试商品',
-        spec: '这是一段商品的描述话语',
-        price: 59,
-        promotionsPrice: 49,
-        mainImgs: [
-          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg',
-          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail2.jpeg',
-          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail3.jpeg'
-        ],
-        detailImgs: [
-          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail4.jpeg',
-          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail6.jpeg',
-          'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail7.jpeg'
-        ],
-        options: [
-          {
-            name: '佩戴方式',
-            content: '入耳式'
-          }, {
-            name: '产品重量',
-            content: '50g'
-          }, {
-            name: '规格',
-            content: '50mm x 50mm x 50mm'
-          }, {
-            name: '型号',
-            content: 'Y1S93S20'
-          }, {
-            name: '产地',
-            content: '海口'
-          }
-        ]
-      }
+      currentPopupFoot: ''
     }
 
     computed = {
@@ -360,7 +336,6 @@ page{
         this.$apply()
       },
       zanStepperChange({ componentId, stepper }, event) {
-        console.log(stepper)
         this[componentId] = stepper
         this.$apply()
       }
@@ -375,16 +350,16 @@ page{
         this.currentPopupFoot = ''
         this.$invoke('zanPopup', 'togglePopup')
 
-        let obj = {
-          id: Math.floor(Math.random() * 10),
-          name: '测试商品',
-          spec: '这是一段商品的描述话语',
-          price: 59,
-          promotionsPrice: 49,
+        let shopCarProductObj = {
+          id: this.$productDetail.id,
+          name: this.$productDetail.name,
+          spec: this.$productDetail.spec,
+          price: this.$productDetail.price,
+          promotionsPrice: this.$productDetail.promotionsPrice,
           num: this.stepper3,
-          mainImgs: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg'
+          mainImgs: this.$productDetail.mainImgs[0]
         }
-        this.methods.addProduct(obj)
+        this.methods.addProduct(shopCarProductObj)
       },
       onTapShopCar() {
         this.$switch('/pages/tabShopCar')
@@ -392,7 +367,7 @@ page{
     }
   
     onLoad() {
-
+      this.methods.getProductDetail()
     }
   }
 </script>

@@ -156,7 +156,7 @@
           address: cityName + countyName + detailInfo,
           postalCode: postalCode || ''
         }
-        const result = await this.methods.addAddress(addressInfo)
+        await this.methods.addAddress(addressInfo)
         this.$apply()
       }
     }

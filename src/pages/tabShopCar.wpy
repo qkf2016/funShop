@@ -135,9 +135,9 @@
           view.price-num.flex 
             view.price ¥ {{item.price}}
             view.stepper-wrap.flex
-              view.reduce -
+              view.reduce(@tap="reduceProductCount({{item.id}})") -
               input.input(value="{{item.num}}" type='number')
-              view.add +
+              view.add(@tap="addProductCount({{item.id}})") +
     view.foot-wrap.flex
       view.check.flex.flex-p-1(@tap="toggleChecked")
         view.zan-icon.zan-icon-checked(class="{{checkAll ? 'icon-checked' : 'icon'}}")
@@ -155,17 +155,23 @@
   import wepy from 'wepy'
   import testMixin from '../mixins/test'
   import { connect } from 'wepy-redux'
-  import { addAddress } from '@/store/actions'
+  import {
+    addAddress,
+    addProductCount,
+    reduceProductCount
+  } from '@/store/actions'
 
   @connect({
-    addressArr (state) {
-      return state.user.addressArr
-    },
+    // addressArr (state) {
+    //   return state.user.addressArr
+    // },
     shopCar (state) {
       return state.shopping.shopCar
     }
   }, {
-    addAddress
+    addAddress,
+    addProductCount,
+    reduceProductCount
   })
 
   export default class ShopCar extends wepy.page {

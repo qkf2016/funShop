@@ -7,7 +7,8 @@ import {
   GET_CLASSTWO, 
   GET_NEWPRODUCT, 
   GET_PRODUCTACTIVITY, 
-  GET_HOTSALEPRODUCT 
+  GET_HOTSALEPRODUCT,
+  GET_PRODUCTDETAIL
 } from '../types/mall'
 
 // 获取店铺信息
@@ -194,5 +195,45 @@ export const getHotSaleProduct = createAction(GET_HOTSALEPRODUCT, () => {
     price: '99'
   }]
   return hotSaleProduct
+})
+
+// 获取商品详细
+export const getProductDetail = createAction(GET_PRODUCTDETAIL, () => {
+  const productDetail = {
+    id: 1,
+    name: '测试商品',
+    spec: '这是一段商品的描述话语',
+    price: 59,
+    promotionsPrice: 49,
+    mainImgs: [
+      'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail1.jpeg',
+      'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail2.jpeg',
+      'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail3.jpeg'
+    ],
+    detailImgs: [
+      'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail4.jpeg',
+      'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail6.jpeg',
+      'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail7.jpeg'
+    ],
+    options: [
+      {
+        name: '佩戴方式',
+        content: '入耳式'
+      }, {
+        name: '产品重量',
+        content: '50g'
+      }, {
+        name: '规格',
+        content: '50mm x 50mm x 50mm'
+      }, {
+        name: '型号',
+        content: 'Y1S93S20'
+      }, {
+        name: '产地',
+        content: '海口'
+      }
+    ]
+  }
+  return productDetail
 })
 

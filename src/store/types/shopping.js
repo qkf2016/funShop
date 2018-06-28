@@ -1,2 +1,3 @@
 export const ADD_PRODUCT = 'addProduct'
-export const REDUCE_PRODUCT = 'reduceProduct'
+export const ADD_PRODUCT_COUNT = 'addProductCount'
+export const REDUCE_PRODUCT_COUNT = 'reduceProductCount'
