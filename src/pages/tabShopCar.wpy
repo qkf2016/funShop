@@ -124,9 +124,9 @@
 
 <template lang='pug'>
   // image.writeAddress(wx:if="{{!addressArr.length}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
-  block(wx:if="{{shopCar.length}}")
+  block(wx:if="{{$shopCar.length}}")
     srcoll-view.product-wrap(scroll-y)
-      view.product.flex(wx:for="{{shopCar}}" wx:key="index")
+      view.product.flex(wx:for="{{$shopCar}}" wx:key="index" @tap="managePayProduct({{item.id}})")
         view.zan-icon.zan-icon-checked.icon
         image.image(src="http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg")
         view.content-wrap.flex
@@ -135,14 +135,14 @@
           view.price-num.flex 
             view.price ¥ {{item.price}}
             view.stepper-wrap.flex
-              view.reduce(@tap="reduceProductCount({{item.id}})") -
+              view.reduce(@tap.stop="reduceProductCount({{item.id}})") -
               input.input(value="{{item.num}}" type='number')
-              view.add(@tap="addProductCount({{item.id}})") +
+              view.add(@tap.stop="addProductCount({{item.id}})") +
     view.foot-wrap.flex
       view.check.flex.flex-p-1(@tap="toggleChecked")
         view.zan-icon.zan-icon-checked(class="{{checkAll ? 'icon-checked' : 'icon'}}")
         view 全选
-      view.sum.flex-p-2 合计: ¥ 0
+      view.sum.flex-p-2 合计: ¥ {{$wxPayObj.totalMoney}}
       view.pay.flex-p-1 结算
   block(wx:else)
     view.__blank-section
@@ -158,20 +158,25 @@
   import {
     addAddress,
     addProductCount,
-    reduceProductCount
+    reduceProductCount,
+    managePayProduct
   } from '@/store/actions'
 
   @connect({
     // addressArr (state) {
     //   return state.user.addressArr
     // },
-    shopCar (state) {
+    $shopCar (state) {
       return state.shopping.shopCar
+    },
+    $wxPayObj (state) {
+      return state.shopping.wxPayObj
     }
   }, {
     addAddress,
     addProductCount,
-    reduceProductCount
+    reduceProductCount,
+    managePayProduct
   })
 
   export default class ShopCar extends wepy.page {

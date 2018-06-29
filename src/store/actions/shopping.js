@@ -4,7 +4,8 @@ import 'wepy-async-function'
 import { 
   ADD_PRODUCT,
   ADD_PRODUCT_COUNT,
-  REDUCE_PRODUCT_COUNT
+  REDUCE_PRODUCT_COUNT,
+  MANAGE_PAY_PRODUCT
 } from '../types/shopping'
 
 // 购物车添加商品
@@ -26,4 +27,9 @@ export const reduceProductCount = createAction(REDUCE_PRODUCT_COUNT, id => {
     id,
     num: 1
   }
+})
+
+// 管理购物车商品结算
+export const managePayProduct = createAction(MANAGE_PAY_PRODUCT, id => {
+  return id
 })

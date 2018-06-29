@@ -2,7 +2,8 @@ import { handleActions } from 'redux-actions'
 import {
   ADD_PRODUCT,
   ADD_PRODUCT_COUNT,
-  REDUCE_PRODUCT_COUNT
+  REDUCE_PRODUCT_COUNT,
+  MANAGE_PAY_PRODUCT
 } from '../types/shopping'
 
 export default handleActions({
@@ -24,7 +25,8 @@ export default handleActions({
 
   // 增加已加入购物车的商品数量
   [ADD_PRODUCT_COUNT] (state, action) {
-    const index = state.shopCar.findIndex( p => p.id === action.payload.id )
+    let productObj = action.payload
+    const index = state.shopCar.findIndex( p => p.id === productObj.id )
     state.shopCar[index].num += 1
 
     return {...state}
@@ -32,8 +34,8 @@ export default handleActions({
 
   // 减少已加入购物车的商品数量
   [REDUCE_PRODUCT_COUNT] (state, action) {
-    const index = state.shopCar.findIndex( p => p.id === action.payload.id )
-    // state.shopCar[index].num = (state.shopCar[index].num > 0) ? state.shopCar[index].num -- : state.shopCar.splice(index, 1)
+    let productObj = action.payload
+    const index = state.shopCar.findIndex( p => p.id === productObj.id )
     if (state.shopCar[index].num > 1) {
       state.shopCar[index].num -= 1
     } else {
@@ -41,8 +43,30 @@ export default handleActions({
     }
 
     return {...state}
+  },
+
+  // 管理购物车商品结算
+  [MANAGE_PAY_PRODUCT] (state, action) {
+    let productId = action.payload
+    let idArr = state.wxPayObj.payShopCar.map(p => p.id)
+    const isInclude = idArr.includes(productId)
+    if (!isInclude) {
+      state.wxPayObj.payShopCar = state.shopCar.filter(p => p.id === productId)
+    }else {
+      const index = state.wxPayObj.payShopCar.findIndex( p => p.id === productId )
+      state.wxPayObj.payShopCar.splice(index, 1)
+    }
+    for (let i of state.wxPayObj.payShopCar) {
+      state.wxPayObj.totalMoney += i.price * i.num
+    }
+
+    return {...state}
   }
   
 }, {
-  shopCar: []
+  shopCar: [],
+  wxPayObj: {
+    totalMoney: 0,
+    payShopCar: [] // 需要结算的商品
+  }
 })
