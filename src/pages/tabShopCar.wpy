@@ -126,7 +126,7 @@
 </style>
 
 <template lang='pug'>
-  image.writeAddress(wx:if="{{!addressArr.length}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
+  image.writeAddress(wx:if="{{!$address}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
   block(wx:if="{{$shopCar.length}}")
     srcoll-view.product-wrap(scroll-y)
       view.product.flex(wx:for="{{$shopCar}}" wx:key="index" @tap="managePayProduct({{item.id}})")
@@ -149,7 +149,7 @@
         view.zan-icon.zan-icon-checked.icon(wx:else)
         view 全选
       view.sum.flex-p-2 合计: ¥ {{$wxPayObj.totalMoney}}
-      view.pay.flex-p-1 结算
+      view.pay.flex-p-1(@tap="onTapSettlement") 结算
   block(wx:else)
     view.__blank-section
       image.image(src="/pages/images/none.svg")
@@ -169,8 +169,8 @@
   } from '@/store/actions'
 
   @connect({
-    addressArr (state) {
-      return state.user.addressArr
+    $address (state) {
+      return state.user.addressArr[0]
     },
     $shopCar (state) {
       return state.shopping.shopCar
@@ -224,6 +224,9 @@
         for (let i of this.$shopCar) {
           this.methods.managePayProduct(i.id)
         }
+      },
+      onTapSettlement() {
+        wepy.navigateTo({url: '/pages/mall/orderSettlement'})
       }
     }
 

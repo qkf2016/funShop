@@ -263,7 +263,7 @@ page{
         view.add-number-wrap.flex
           view 购买数量:
           zanStepper3(:stepper.sync="stepper3" :min="min3" :max="max3" componentId="stepper3" size="small")
-        view.zan-btn.zan-btn--danger.zan-btn--large(@tap="onTapAddShopCar") {{currentPopupFoot}}
+        view.zan-btn.zan-btn--danger.zan-btn--large(@tap="onTapAddShopCar({{currentPopupFoot}})") {{currentPopupFoot}}
 </template>
 
 <script>
@@ -346,7 +346,7 @@ page{
         this.currentPopupFoot = v
         this.$invoke('zanPopup', 'togglePopup')
       },
-      onTapAddShopCar() {
+      onTapAddShopCar(v) {
         this.currentPopupFoot = ''
         this.$invoke('zanPopup', 'togglePopup')
 
@@ -360,6 +360,8 @@ page{
           mainImgs: this.$productDetail.mainImgs[0]
         }
         this.methods.addProduct(shopCarProductObj)
+
+        if (v === '马上购买') wepy.redirectTo({url: '/pages/mall/orderSettlement'})
       },
       onTapShopCar() {
         this.$switch('/pages/tabShopCar')

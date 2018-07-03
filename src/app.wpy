@@ -64,6 +64,7 @@ export default class extends wepy.app {
 
       'pages/mall/productList',
       'pages/mall/productDetail',
+      'pages/mall/orderSettlement',
 
       'pages/user/myAddress',
       'pages/user/myOrder',

@@ -1,0 +1,208 @@
+<style lang="scss">
+@import '../../zanui/common';
+@import '../../zanui/icon';
+@import '../../zanui/btn';
+page{
+  box-sizing: border-box;
+  padding: 10rpx;
+  padding-bottom: 120rpx;
+}
+.writeAddress{
+  width: 750rpx;
+  height: 150rpx;
+}
+.address-wrap{
+  align-items: center;
+  width: 730rpx;
+  height: 200rpx;
+  background: $white;
+  .left-wrap{
+    margin-left: 60rpx;
+    width: 680rpx;
+    font-size: 34rpx;
+    font-weight: 500;
+    color: $text-color;
+    .icon{
+      color: $theme;
+      margin-right: 20rpx;
+    }
+  }
+  .right-wrap{
+    width: 50rpx;
+    .icon{
+      color: $gray-dark;
+    }
+  }
+}
+.product-wrap{
+  margin-top: 20rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+  background: $white;
+  .product{
+    width: 690rpx;
+    height: 220rpx;
+    align-items: center;
+    border-bottom: 1px solid $border-color;
+    .image{
+      border: 1px solid $border-color;
+      width: 170rpx;
+      height: 170rpx;
+      margin-left: 20rpx;
+    }
+    .content-wrap{
+      flex-direction: column;
+      justify-content: center;
+      width: 460rpx;
+      height: 200rpx;
+      box-sizing: border-box;
+      padding-left: 20rpx;
+      .name, .spec{
+        font-size: 34rpx;
+        color: $text-color;
+        width: 440rpx;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 60rpx;
+      }
+      .spec{
+        font-size: 28rpx;
+        color: $gray-dark;
+      }
+      .price-num{
+        font-size: 32rpx;
+        font-weight: 500;
+        justify-content: space-between;
+        width: 440rpx;
+        line-height: 60rpx;
+      }
+    }
+  }
+}
+.money-wrap{
+  margin-top: 20rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+  flex-direction: column;
+  justify-content: center;
+  width: 730rpx;
+  height: 150rpx;
+  background: $white;
+  font-size: 32rpx;
+  .product-money, .transport-wrap{
+    width: 100%;
+    justify-content: space-between;
+    .product-name{
+      color: $gray-darker;
+    }
+    .product-price{
+      font-weight: 600;
+      font-size: 34rpx;
+    }
+    .transport-price{
+      color: $orange;
+    }
+  }
+}
+
+.foot-wrap{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background: $white;
+  align-items: center;
+  .sum{
+    font-size: 48rpx;
+    margin-left: 30rpx;
+    color: $black;
+  }
+  .pay{
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    background: $theme;
+    color: $white;
+    font-size: 32rpx;
+  }
+}
+
+</style>
+
+<template lang='pug'>
+  zanToast
+  image.writeAddress(wx:if="{{!$address}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
+  view.address-wrap.flex(wx:else)
+    view.left-wrap
+      view.flex
+        view {{$address.userName}} {{$address.telNumber}}
+      view {{$address.address}}
+    view.right-wrap
+      view.zan-icon.zan-icon-arrow.icon    
+  view.product-wrap(scroll-y)
+    view.product.flex(wx:for="{{$wxPayObj.payShopCar}}" wx:key="index")
+      image.image(src="http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg")
+      view.content-wrap.flex
+        view.name {{item.name}}
+        view.spec {{item.spec}}
+        view.price-num.flex 
+          view.price ¥ {{item.price}} x {{item.num}}
+  view.money-wrap.flex
+    view.product-money.flex
+      view.product-name 商品金额
+      view.product-price ¥ {{$wxPayObj.totalMoney}}
+    view.transport-wrap.flex
+      view.product-name 运费
+      view.transport-price 免运费
+  view.foot-wrap.flex
+    view.sum.flex-p-2 ¥ {{$wxPayObj.totalMoney}}
+    view.pay.flex-p-1 微信支付
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import zanToast from '@/components/zan-toast'
+  import { connect } from 'wepy-redux'
+
+  @connect({
+    $address (state) {
+      return state.user.addressArr[0]
+    },
+    $wxPayObj (state) {
+      return state.shopping.wxPayObj
+    }
+  })
+
+  export default class ProductList extends wepy.page {
+    config = {
+      navigationBarTitleText: '趣玩儿店'
+    }
+    components = {
+      zanToast: zanToast
+    }
+
+    mixins = []
+
+    data = {
+
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>
