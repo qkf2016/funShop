@@ -5,7 +5,8 @@ import {
   ADD_PRODUCT,
   ADD_PRODUCT_COUNT,
   REDUCE_PRODUCT_COUNT,
-  MANAGE_PAY_PRODUCT
+  MANAGE_PAY_PRODUCT,
+  COMPUTE_PAY_MONEY
 } from '../types/shopping'
 
 // 购物车添加商品
@@ -32,4 +33,9 @@ export const reduceProductCount = createAction(REDUCE_PRODUCT_COUNT, id => {
 // 管理购物车商品结算
 export const managePayProduct = createAction(MANAGE_PAY_PRODUCT, id => {
   return id
+})
+
+// 计算结算商品的总价
+export const computePayMoney = createAction(COMPUTE_PAY_MONEY, () => {
+  return true
 })

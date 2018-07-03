@@ -28,6 +28,9 @@
     .icon{
       color: $gray-darker;
     }
+    .icon-checked{
+      color: $theme;
+    }
     .image{
       border: 1px solid $border-color;
       width: 170rpx;
@@ -123,11 +126,13 @@
 </style>
 
 <template lang='pug'>
-  // image.writeAddress(wx:if="{{!addressArr.length}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
+  image.writeAddress(wx:if="{{!addressArr.length}}" src="/pages/images/writeAddress.jpeg" @tap="onTapAddAddress")
   block(wx:if="{{$shopCar.length}}")
     srcoll-view.product-wrap(scroll-y)
       view.product.flex(wx:for="{{$shopCar}}" wx:key="index" @tap="managePayProduct({{item.id}})")
-        view.zan-icon.zan-icon-checked.icon
+        block(wx:for="{{$wxPayObj.payShopCar}}" wx:key="id" wx:for-item="productCK")
+          view.zan-icon.zan-icon-checked.icon-checked(wx:if="{{productCK.id === item.id}}")
+          view.zan-icon.zan-icon-checked.icon(wx:else)
         image.image(src="http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg")
         view.content-wrap.flex
           view.name {{item.name}}
@@ -140,7 +145,8 @@
               view.add(@tap.stop="addProductCount({{item.id}})") +
     view.foot-wrap.flex
       view.check.flex.flex-p-1(@tap="toggleChecked")
-        view.zan-icon.zan-icon-checked(class="{{checkAll ? 'icon-checked' : 'icon'}}")
+        view.zan-icon.zan-icon-checked.icon-checked(wx:if="{{$shopCar.length === $wxPayObj.payShopCar.length}}")
+        view.zan-icon.zan-icon-checked.icon(wx:else)
         view 全选
       view.sum.flex-p-2 合计: ¥ {{$wxPayObj.totalMoney}}
       view.pay.flex-p-1 结算
@@ -163,9 +169,9 @@
   } from '@/store/actions'
 
   @connect({
-    // addressArr (state) {
-    //   return state.user.addressArr
-    // },
+    addressArr (state) {
+      return state.user.addressArr
+    },
     $shopCar (state) {
       return state.shopping.shopCar
     },
@@ -191,7 +197,7 @@
     mixins = [testMixin]
 
     data = {
-      checkAll: false
+      checkAll: true
     }
 
     computed = {
@@ -215,6 +221,9 @@
       },
       toggleChecked() {
         this.checkAll = !this.checkAll
+        for (let i of this.$shopCar) {
+          this.methods.managePayProduct(i.id)
+        }
       }
     }
 
@@ -222,7 +231,7 @@
 
     }
 
-    onLoad() {
+    onShow() {
 
     }
   }

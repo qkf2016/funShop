@@ -3,7 +3,8 @@ import {
   ADD_PRODUCT,
   ADD_PRODUCT_COUNT,
   REDUCE_PRODUCT_COUNT,
-  MANAGE_PAY_PRODUCT
+  MANAGE_PAY_PRODUCT,
+  COMPUTE_PAY_MONEY
 } from '../types/shopping'
 
 export default handleActions({
@@ -15,9 +16,21 @@ export default handleActions({
     const isInclude = idArr.includes(productObj.id)
     if (!isInclude) {
       state.shopCar.push(productObj)
+      // 深拷贝一份数组对象
+      state.wxPayObj.payShopCar = state.shopCar.concat()
+      state.wxPayObj.totalMoney = 0
+      for (let i of state.wxPayObj.payShopCar) {
+        state.wxPayObj.totalMoney += i.price * i.num
+      }
     }else {
       const index = state.shopCar.findIndex( p => p.id === productObj.id )
       state.shopCar[index].num = productObj.num
+      // 深拷贝一份数组对象
+      state.wxPayObj.payShopCar = state.shopCar.concat()
+      state.wxPayObj.totalMoney = 0
+      for (let i of state.wxPayObj.payShopCar) {
+        state.wxPayObj.totalMoney += i.price * i.num
+      }
     }
 
     return {...state}
@@ -28,6 +41,12 @@ export default handleActions({
     let productObj = action.payload
     const index = state.shopCar.findIndex( p => p.id === productObj.id )
     state.shopCar[index].num += 1
+    // 深拷贝一份数组对象
+    state.wxPayObj.payShopCar = state.shopCar.concat()
+    state.wxPayObj.totalMoney = 0
+    for (let i of state.wxPayObj.payShopCar) {
+      state.wxPayObj.totalMoney += i.price * i.num
+    }
 
     return {...state}
   },
@@ -41,11 +60,17 @@ export default handleActions({
     } else {
       state.shopCar.splice(index, 1)
     }
+    // 深拷贝一份数组对象
+    state.wxPayObj.payShopCar = state.shopCar.concat()
+    state.wxPayObj.totalMoney = 0
+    for (let i of state.wxPayObj.payShopCar) {
+      state.wxPayObj.totalMoney += i.price * i.num
+    }
 
     return {...state}
   },
 
-  // 管理购物车商品结算
+  // 管理购物车结算商品
   [MANAGE_PAY_PRODUCT] (state, action) {
     let productId = action.payload
     let idArr = state.wxPayObj.payShopCar.map(p => p.id)
@@ -56,6 +81,17 @@ export default handleActions({
       const index = state.wxPayObj.payShopCar.findIndex( p => p.id === productId )
       state.wxPayObj.payShopCar.splice(index, 1)
     }
+    state.wxPayObj.totalMoney = 0
+    for (let i of state.wxPayObj.payShopCar) {
+      state.wxPayObj.totalMoney += i.price * i.num
+    }
+
+    return {...state}
+  },
+
+  // 计算结算商品总价
+  [COMPUTE_PAY_MONEY] (state) {
+    state.wxPayObj.totalMoney = 0
     for (let i of state.wxPayObj.payShopCar) {
       state.wxPayObj.totalMoney += i.price * i.num
     }
