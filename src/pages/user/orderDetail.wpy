@@ -141,37 +141,49 @@ page{
   view.condation-wrap.flex
     view.left.flex
       view.zan-icon.zan-icon-clock(style="color: #fff") 
-      view.type 订单状态：某种状态
+      view.type 订单状态：{{$orderDetail.status}}
   view.deliveryInfo-wrap
     view.name-phone.flex
-      view 屈凯飞 18708965705
+      view {{$orderDetail.belonger.name}} {{$orderDetail.belonger.phone}}
     view.name-phone.flex
       image.image(src='/pages/images/address.svg')
-      view.address 海南海口琼山区龙昆南路99号海南师范大学     
+      view.address {{$orderDetail.belonger.address}}    
   view.welcome-wrap.flex(bindtap="callMarket")
-    view 良明包装材料欢迎您再次光临
+    view 趣玩儿店欢迎您
     view.zan-icon.zan-icon-phone(style="color: #0a0")
   view.good-msg-wrap.flex
     view.left
-      image.image(src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg")
+      image.image(src="{{$orderDetail.goods.image}}")
     view.right
-      view.name 测试商品
-      view.num 数量： x 5
-      view.price 单价： ¥50
+      view.name {{$orderDetail.goods.name}}
+      view.num 数量： x {{$orderDetail.goods.num}}
+      view.price 单价： ¥ {{$orderDetail.goods.price}}
   view.order-detail-wrap
     view.order-num-wrap.flex
-      view.flex-p-2.num 订单编号： 201808192323
+      view.flex-p-2.num 订单编号： {{$orderDetail.id}}
       view.flex-p-1.copy-wrap(bindtap="copyNumber") 
         view.btn 复制
-    view.date 下单时间： 2018-06-05 16:13:00
+    view.date 下单时间： {{$orderDetail.orderTime}}
   view.order-foot-wrap.flex
-    view  总金额：¥250
-    button.zan-btn.zan-btn--small.zan-btn--danger 马上付款/再来一单           
+    view  总金额：¥ {{$orderDetail.totalMoney}}
+    button.zan-btn.zan-btn--small.zan-btn--danger 再来一单           
 </template>
 
 <script>
   import wepy from 'wepy'
   import ZanTab from '@/components/zan-tab'
+  import { connect } from 'wepy-redux'
+  import {
+    getOrderDetail
+  } from '@/store/actions'
+
+  @connect({
+    $orderDetail (state) {
+      return state.user.orderDetail
+    }
+  }, {
+    getOrderDetail
+  })
 
   export default class MyOrder extends wepy.page {
     config = {
@@ -221,7 +233,7 @@ page{
     }
 
     onLoad() {
-
+      this.methods.getOrderDetail()
     }
   }
 </script>

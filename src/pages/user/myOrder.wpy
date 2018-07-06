@@ -72,7 +72,7 @@
 <template lang='pug'>
   zanTab(:tab.sync="tab" componentId="tab")
   scroll-view.scroll-view(scroll-y)
-    block(wx:for="{{orderArr}}" wx:key="id")
+    block(wx:for="{{$myOrders}}" wx:key="id")
       view.tip-wrap
         view.market-wrap.flex
           view.flex.flex-p-6.left
@@ -94,6 +94,18 @@
 <script>
   import wepy from 'wepy'
   import ZanTab from '@/components/zan-tab'
+  import { connect } from 'wepy-redux'
+  import {
+    getMyOrders
+  } from '@/store/actions'
+
+  @connect({
+    $myOrders (state) {
+      return state.user.myOrders
+    }
+  }, {
+    getMyOrders
+  })
 
   export default class MyOrder extends wepy.page {
     config = {
@@ -123,44 +135,7 @@
             title: '已完成'
           }
         ]
-      },
-      orderArr: [{
-        id: 1,
-        productArr: [{
-          id: 1,
-          name: '测试商品',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
-          num: 2,
-          spec: '一段商品描述'
-        }]
-      }, {
-        id: 2,
-        productArr: [{
-          id: 1,
-          name: '测试商品',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg',
-          num: 2,
-          spec: '一段商品描述'
-        }, {
-          id: 2,
-          name: '测试商品',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg',
-          num: 2,
-          spec: '一段商品描述'
-        }, {
-          id: 3,
-          name: '测试商品',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg',
-          num: 3,
-          spec: '一段商品描述'
-        }, {
-          id: 4,
-          name: '测试商品',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods5.jpeg',
-          num: 3,
-          spec: '一段商品描述'
-        }]
-      }]
+      }
     }
 
     computed = {
@@ -182,7 +157,7 @@
     }
 
     onLoad() {
-
+      this.methods.getMyOrders()
     }
   }
 </script>

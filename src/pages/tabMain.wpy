@@ -308,7 +308,7 @@
 
     async onLoad() {
       this.$invoke('zanNoticebar', 'initZanNoticeBarScroll')
-      const {payload: {notice}} = this.methods.getMallInfo()
+      const {payload: {notice}} = await this.methods.getMallInfo()
       this.noticeSync = notice
       this.methods.getClassOne()
       this.methods.getNewProduct()

@@ -249,16 +249,14 @@ page{
   zanPopup(direction="bottom")
     view.popup-wrap(slot="popupContent")
       view.top-wrap.flex
-        image.image(src='http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-detail2.jpeg')
+        image.image(src='{{$productDetail.mainImgs[0]}}')
         view.detail-wrap.flex
           view.price-wrap.flex
             image.rmb(src="/pages/images/rmb.svg")  
             view.price {{$productDetail.promotionsPrice}}   
           view.choose-wrap 已选择: {{$productDetail.name}}
       scroll-view.middle-wrap(scroll-y style="height: 200rpx;")
-        view.item 珍珠白
-        view.item 幻夜黑
-        view.item 激情红
+        view.item {{$productDetail.spec}}
       view.bottom-wrap
         view.add-number-wrap.flex
           view 购买数量:
@@ -305,15 +303,15 @@ page{
     data = {
       showShopCar: false,
       tab: {
+        selectedId: 'showImg',
+        scroll: false,
         list: [{
           id: 'showImg',
           title: '商品详细'
         }, {
           id: 'params',
           title: '商品规格'
-        }],
-        selectedId: 'showImg',
-        scroll: false
+        }]
       },
       stepper3: 1,
       min3: 1,

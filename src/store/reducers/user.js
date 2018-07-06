@@ -3,7 +3,9 @@ import {
   GET_USERINFO, 
   EDIT_USERINFO, 
   ADD_ADDRESS,
-  DELETE_ADDRESS
+  DELETE_ADDRESS,
+  GET_MYORDERS,
+  GET_ORDERDETAIL
 } from '../types/user'
 
 export default handleActions({
@@ -35,9 +37,25 @@ export default handleActions({
     state.addressArr.splice(index, 1)
     
     return {...state}
+  },
+
+  // 获取我的订单列表
+  [GET_MYORDERS] (state, action) {
+    state.myOrders = action.payload
+    
+    return {...state}
+  },
+
+  // 获取订单详细
+  [GET_ORDERDETAIL] (state, action) {
+    state.orderDetail = action.payload
+    
+    return {...state}
   }
 
 }, {
   wxInfo: null,
-  addressArr: []
+  addressArr: [],
+  myOrders: [],
+  orderDetail: null
 })

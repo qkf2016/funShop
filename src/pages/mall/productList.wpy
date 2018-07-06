@@ -46,19 +46,33 @@
 
 <template lang='pug'>
   zanToast
-  zanTab(:tab.sync="tab" componentId="tab")
+  zanTab(:tab.sync="tabSync" componentId="tabSync")
   scroll-view.goods-card-wrap.flex(scroll-y bindscrolltolower="lower")
-    view.goods-card.flex(wx:for="{{gussYouLike}}" wx:key="index" @tap='onTapProduct')
-      image.image(src="{{item}}" lazy-load="{{true}}" mode="aspectFill")
-      view.content 安全静音完美无可挑剔的示例商品                  
-      view.sub 这是一段关于商品的描述                  
-      view.content ¥49  
+    view.goods-card.flex(wx:for="{{$store_hotSaleProduct}}" wx:key="index" @tap='onTapProduct')
+      image.image(src="{{item.image}}" lazy-load="{{true}}" mode="aspectFill")
+      view.content {{item.name}}                  
+      view.sub {{item.spec}}                  
+      view.content ¥{{item.price}} 
 </template>
 
 <script>
   import wepy from 'wepy'
   import ZanTab from '@/components/zan-tab'
   import zanToast from '@/components/zan-toast'
+  import { connect } from 'wepy-redux'
+  import { getClassTwo, getHotSaleProduct } from '@/store/actions'
+
+  @connect({
+    $store_classTwo (state) {
+      return state.mall.classTwo
+    },
+    $store_hotSaleProduct (state) {
+      return state.mall.hotSaleProduct
+    }
+  }, {
+    getClassTwo,
+    getHotSaleProduct
+  })
 
   export default class ProductList extends wepy.page {
     config = {
@@ -72,43 +86,11 @@
     mixins = []
 
     data = {
-      tab: {
+      tabSync: {
         selectedId: 1,
         scroll: true,
-        list: [{
-          id: 1,
-          title: '潮流短袖',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
-        }, {
-          id: 2,
-          title: '电子数码',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
-        }, {
-          id: 3,
-          title: '家用电器',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
-        }, {
-          id: 4,
-          title: '电子数码',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods3.jpeg'
-        }, {
-          id: 5,
-          title: '居家旅行',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods4.jpeg'
-        }, {
-          id: 6,
-          title: '潮流短袖',
-          img: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/main-goods2.jpeg'
-        }]
-      },
-      gussYouLike: [
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger3.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger2.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger3.jpeg',
-        'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg'
-      ]
+        list: []
+      }
     }
 
     computed = {
@@ -131,8 +113,11 @@
     lower() {
       this.$invoke('zanToast', 'showZanToast', { title: '没有更多了', timeout: 2000 })
     }
-    onLoad() {
-
+    async onLoad() {
+      await this.methods.getClassTwo()
+      this.tabSync.list = this.$store_classTwo
+      this.methods.getHotSaleProduct()
+      this.$apply()
     }
   }
 </script>
