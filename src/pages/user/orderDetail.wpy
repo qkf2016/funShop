@@ -171,7 +171,6 @@ page{
 
 <script>
   import wepy from 'wepy'
-  import ZanTab from '@/components/zan-tab'
   import { connect } from 'wepy-redux'
   import {
     getOrderDetail
@@ -190,30 +189,13 @@ page{
       navigationBarTitleText: '趣玩儿店'
     }
     components = {
-      zanTab: ZanTab
+
     }
 
     mixins = []
 
     data = {
-      tab: {
-        list: [
-          {
-            id: 1,
-            title: '待发货'
-          },
-          {
-            id: 2,
-            title: '配送中'
-          },
-          {
-            id: 3,
-            title: '已完成'
-          }
-        ],
-        selectedId: 1,
-        scroll: false
-      }
+
     }
 
     computed = {
@@ -225,11 +207,7 @@ page{
     }
 
     events = {
-      zanTabChange(selectedId, event) {
-        let { componentId } = event.source
-        this[componentId].selectedId = selectedId
-        this.$apply()
-      }
+
     }
 
     onLoad() {

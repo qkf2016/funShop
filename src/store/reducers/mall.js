@@ -67,5 +67,5 @@ export default handleActions({
   newProduct: [],
   productActivity: [],
   hotSaleProduct: [],
-  productDetail: {}
+  productDetail: null
 })

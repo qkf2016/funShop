@@ -68,7 +68,7 @@
       }
   }
 }
-// 活动海报
+// 活动标语
 .goods-advertisement{
   box-sizing: border-box;
   padding: 20rpx 30rpx;

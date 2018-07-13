@@ -74,6 +74,7 @@ export const getClassOne = createAction(GET_CLASSONE, () => {
   return classOne
 })
 
+// 获取店铺二级分类
 export const getClassTwo = createAction(GET_CLASSTWO, () => {
   const classTwo = [{
     classOneId: 1,
@@ -174,24 +175,32 @@ export const getHotSaleProduct = createAction(GET_HOTSALEPRODUCT, () => {
     image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg',
     name: '令人心动的精美小夜灯',
     spec: '这是一段商品描述',
+    unit: '个',
+    standard: '箱子',
     price: '99'
   }, {
     id: 2,
     image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger2.jpeg',
     name: '结实耐用的黑色登山包',
     spec: '这是一段商品描述',
+    unit: '个',
+    standard: '箱子',
     price: '12999'
   }, {
     id: 3,
     image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger3.jpeg',
     name: '小巧玲珑的全自动牙刷',
     spec: '这是一段商品描述',
+    unit: '个',
+    standard: '箱子',
     price: '699'
   }, {
     id: 4,
     image: 'http://pakbe7by0.bkt.clouddn.com/funshop/images/goods-biger1.jpeg',
     name: '令人心动的精美小夜灯',
     spec: '这是一段商品描述',
+    unit: '个',
+    standard: '箱子',
     price: '99'
   }]
   return hotSaleProduct
